@@ -66,6 +66,10 @@ const App = () => {
         setEntries(newEntries);
     };
 
+    const handleEdit = (index, entry) => {
+        entries[index] = entry;
+    };
+
     return (
         <div>
             <div className="nav">
@@ -87,6 +91,7 @@ const App = () => {
                             handleSubmit={handleSubmit}
                             entries={entries}
                             handleDelete={handleDelete}
+                            handleEdit={handleEdit}
                         />
                     )}
                     {activeSection === 'distributed-invoices' && (

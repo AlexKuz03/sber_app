@@ -1,17 +1,41 @@
-import React from 'react';
-import DatePicker from 'react-datepicker';
+import DatePicker from "react-datepicker";
+import React, {Fragment, useState} from "react";
 import ru from 'date-fns/locale/ru';
 import 'react-datepicker/dist/react-datepicker.css';
-import MyDropzone from './MyDropzone';
-import EditingInvoices from './EditingInvoices';
+import {Modal, ModalBody, ModalHeader} from "reactstrap";
 
-const Invoices = ({ inputValues, handleInputChange, handleDateChange, handleSubmit, entries, handleDelete, handleEdit }) => {
+const EditingInvoices = ({ values,  handleDateChange, handleEdit, index }) => {
+    const [visible, setVisible] = useState(false)
+    var button = <button onClick={() => toggle()}>Редактировать</button>;
+    const [inputValues, setInputValues] = useState({
+        company: values.company,
+        year: values.year,
+        bill: values.bill,
+        billposition: values.billposition,
+        IDservices: values.IDservices,
+        IDagreement: values.IDagreement,
+        date: values.date,
+        cost: values.cost
+    });
+    const toggle = () => {
+        setVisible(!visible)
+    }
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setInputValues({ ...inputValues, [name]: value });
+    };
+
     return (
-        <div>
-            <label>
-                Введите значения:
-                <table className="custom-table">
-                    <thead>
+        <Fragment>
+        {button}
+        <Modal isOpen={visible} toggle={toggle}>
+            <ModalHeader style={{justifyContent: "center"}}>Редактировать
+            </ModalHeader>
+            <ModalBody>
+                <label>
+                    Введите значения:
+                    <table className="custom-table">
+                        <thead>
                         <tr>
                             <th>Компания</th>
                             <th>Год</th>
@@ -22,8 +46,8 @@ const Invoices = ({ inputValues, handleInputChange, handleDateChange, handleSubm
                             <th>Дата отражения счета в учетной системе</th>
                             <th>Стоимость без НДС</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         <tr>
                             <td>
                                 <input
@@ -91,47 +115,12 @@ const Invoices = ({ inputValues, handleInputChange, handleDateChange, handleSubm
                                 />
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-            </label>
-            <button onClick={handleSubmit}>Сохранить</button>
-            <MyDropzone />
-            <div>
-                <h3>Сохраненные записи:</h3>
-                <table className="custom-table">
-                    <thead>
-                        <tr>
-                            <th>Компания</th>
-                            <th>Год</th>
-                            <th>Номер счета</th>
-                            <th>Позиция счета</th>
-                            <th>ID услуги</th>
-                            <th>ID договора</th>
-                            <th>Дата отражения счета в учетной системе</th>
-                            <th>Стоимость без НДС</th>
-                            <th>Удаление</th>
-                            <th>Редактирование</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {entries.map((entry, index) => (
-                            <tr key={index}>
-                                {Object.keys(entry).map((key) => (
-                                    <td key={key}>{key === 'date' ? new Date(entry[key]).toLocaleDateString() : entry[key]}</td>
-                                ))}
-                                <td>
-                                    <button onClick={() => handleDelete(index)}>Удалить</button>
-                                </td>
-                                <td>
-                                    <EditingInvoices values={entry} handleDateChange={handleDateChange} handleEdit={handleEdit} index={index}></EditingInvoices>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
-};
-
-export default Invoices;
+                        </tbody>
+                    </table>
+                </label>
+                <button onClick={handleEdit(index, inputValues)}>Сохранить</button>
+            </ModalBody>
+        </Modal>
+        </Fragment>
+    )}
+export default EditingInvoices;
