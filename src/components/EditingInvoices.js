@@ -23,13 +23,20 @@ const EditingInvoices = ({ values,  handleDateChange, handleEdit, index }) => {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setInputValues({ ...inputValues, [name]: value });
+
     };
+    const handleSave = () => {
+        handleEdit(index, inputValues);
+        toggle();
+    }
+
 
     return (
-        <Fragment>
+        <div>
         {button}
-        <Modal isOpen={visible} toggle={toggle}>
-            <ModalHeader style={{justifyContent: "center"}}>Редактировать
+        <Modal isOpen={visible} toggle={toggle} size="lg" style={{minWidth: '90%'}}>>
+            <ModalHeader style={{justifyContent: "center"}}>
+                Редактировать
             </ModalHeader>
             <ModalBody>
                 <label>
@@ -118,9 +125,9 @@ const EditingInvoices = ({ values,  handleDateChange, handleEdit, index }) => {
                         </tbody>
                     </table>
                 </label>
-                <button onClick={handleEdit(index, inputValues)}>Сохранить</button>
+                <button onClick={handleSave}>Сохранить</button>
             </ModalBody>
         </Modal>
-        </Fragment>
+        </div>
     )}
 export default EditingInvoices;

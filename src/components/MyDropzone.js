@@ -21,7 +21,7 @@ const MyDropzone = () => {
     ));
 
     return (
-        <section className="container">
+        <section className="container" style={{margin:'0', padding:'0'}}>
             <div {...getRootProps({ className: "dropzone" })}>
                 <input {...getInputProps()} />
                 <p>Переместите файл сюда или кликните и выберите файл</p>

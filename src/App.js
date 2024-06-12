@@ -6,6 +6,8 @@ import LaunchDistribution from './components/LaunchDistribution';
 import DistributionManagement from './components/DistributionManagement';
 import CostForecasting from './components/CostForecasting';
 import DistributionObjects from './components/DistributionObjects';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Container, Modal, ModalBody} from "reactstrap";
 
 const App = () => {
     const [activeSection, setActiveSection] = useState('launch-distribution');
@@ -67,7 +69,16 @@ const App = () => {
     };
 
     const handleEdit = (index, entry) => {
-        entries[index] = entry;
+        const nextEntries = entries.map((c, i) => {
+            if (i === index) {
+                // Increment the clicked counter
+                return entry;
+            } else {
+                // The rest haven't changed
+                return c;
+            }
+        });
+        setEntries(nextEntries);
     };
 
     return (
