@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LaunchDistribution = ({ entries }) => {
+const LaunchDistribution = ({ entries, handleLaunchDistribution }) => {
     return (
         <div>
             <h3>Сохраненные записи:</h3>
@@ -29,6 +29,7 @@ const LaunchDistribution = ({ entries }) => {
                     ))}
                 </tbody>
             </table>
+          <button class="launch" onClick={handleLaunchDistribution}>Запуск распределения</button>
         </div>
     );
 };

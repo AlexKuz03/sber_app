@@ -77,10 +77,14 @@ const App = () => {
         });
         setEntries(nextEntries);
     };
+
     const handleSaveImportEntries = (jsonData) => {
         setEntries(entries => [...entries, ...jsonData]);
     };
 
+    const handleLaunchDistribution = () => {
+      // пустышка
+    };
 
     return (
 
