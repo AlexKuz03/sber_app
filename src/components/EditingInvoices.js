@@ -5,7 +5,7 @@ import AddAndEditTable from "./AddAndEditTable";
 
 const EditingInvoices = ({ values, handleEdit, index }) => {
     const [visible, setVisible] = useState(false)
-    var button = <button onClick={() => toggle()}>Редактировать</button>;
+    var button = <button class="edit-button" onClick={() => toggle()}>Редактировать</button>;
     const [inputValues, setInputValues] = useState({
         company: values.company,
         year: values.year,
@@ -43,9 +43,13 @@ const EditingInvoices = ({ values, handleEdit, index }) => {
             <ModalBody>
                 <label>
                     Введите значения:
-                    <AddAndEditTable inputValues={inputValues} handleInputChange={handleInputChange} handleDateChange={handleDateChange}></AddAndEditTable>
+                    <AddAndEditTable
+                        inputValues={inputValues}
+                        handleInputChange={handleInputChange}
+                        handleDateChange={handleDateChange}>
+                    </AddAndEditTable>
                 </label>
-                <button onClick={handleSave}>Сохранить</button>
+                <button class="save-button" onClick={handleSave}>Сохранить</button>
             </ModalBody>
         </Modal>
         </div>

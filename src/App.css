@@ -4,6 +4,8 @@ body {
 
 .nav {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #f4f4f4;
     padding: 10px;
 }
@@ -35,6 +37,21 @@ body {
 
 .subnav a:hover {
     background-color: #ddd;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+.auth-buttons .auth {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
 }
 
 .content {
@@ -72,6 +89,14 @@ body {
     border: 1px solid #ccc;
 }
 
+.save-button{
+  margin-top: 30px;
+}
+
+.delete-button, .edit-button{
+  width: 100%;
+}
+
 button {
     margin-top: 10px;
     padding: 10px 20px;
@@ -92,9 +117,4 @@ button:hover {
 
 .width-date-picker {
   width: 100%;
-}
-
-.launch{
-  margin-top: 30px;
-  float :right;
 }

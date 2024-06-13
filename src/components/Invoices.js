@@ -19,8 +19,12 @@ const Invoices = ({
     return (
         <div>
             Введите значения:
-            <AddAndEditTable inputValues={inputValues} handleInputChange={handleInputChange} handleDateChange={handleDateChange}></AddAndEditTable>
-            <button onClick={handleSubmit}>Сохранить</button>
+            <AddAndEditTable
+                inputValues={inputValues}
+                handleInputChange={handleInputChange}
+                handleDateChange={handleDateChange}>
+            </AddAndEditTable>
+            <button class="save-button" onClick={handleSubmit}>Сохранить</button>
             <MyDropzone handleSaveImportEntries={handleSaveImportEntries}/>
             <div>
                 <h3>Сохраненные записи:</h3>
@@ -43,14 +47,19 @@ const Invoices = ({
                     {entries.map((entry, index) => (
                         <tr key={index}>
                             {Object.keys(entry).map((key) => (
-                                <td key={key}>{key === 'invoice_reflection_in_the_accounting_system_date' ? new Date(entry[key]).toLocaleDateString() : entry[key]}</td>
+                                <td key={key}>{key === 'invoice_reflection_in_the_accounting_system_date'
+                                ? new Date(entry[key]).toLocaleDateString()
+                                : entry[key]}</td>
                             ))}
                             <td>
-                                <button onClick={() => handleDelete(index)}>Удалить</button>
+                                <button class="delete-button" onClick={() => handleDelete(index)}>Удалить</button>
                             </td>
                             <td>
-                                <EditingInvoices values={entry} handleDateChange={handleDateChange}
-                                                 handleEdit={handleEdit} index={index}></EditingInvoices>
+                                <EditingInvoices
+                                    values={entry}
+                                    handleDateChange={handleDateChange}
+                                    handleEdit={handleEdit}
+                                    index={index}></EditingInvoices>
                             </td>
                         </tr>
                     ))}

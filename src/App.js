@@ -6,11 +6,19 @@ import LaunchDistribution from './components/LaunchDistribution';
 import DistributionManagement from './components/DistributionManagement';
 import CostForecasting from './components/CostForecasting';
 import DistributionObjects from './components/DistributionObjects';
+import LoginModal from './components/LoginModal';
+import RegisterModal from './components/RegisterModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
-    const [activeSection, setActiveSection] = useState('launch-distribution');
+    const [activeSection, setActiveSection] = useState('invoices');
     const [activeSubsection, setActiveSubsection] = useState('');
+
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+    const toggleLoginModal = () => setIsLoginModalOpen(!isLoginModalOpen);
+    const toggleRegisterModal = () => setIsRegisterModalOpen(!isRegisterModalOpen);
+
     const [inputValues, setInputValues] = useState({
         company: '',
         year: '',
@@ -45,7 +53,8 @@ const App = () => {
     };
 
     const handleDateChange = (invoice_reflection_in_the_accounting_system_date) => {
-        setInputValues({ ...inputValues, ['invoice_reflection_in_the_accounting_system_date']: invoice_reflection_in_the_accounting_system_date });
+        setInputValues({ ...inputValues, ['invoice_reflection_in_the_accounting_system_date']
+        : invoice_reflection_in_the_accounting_system_date });
     };
 
     const handleSubmit = () => {
@@ -95,6 +104,10 @@ const App = () => {
                         {sections[section]}
                     </a>
                 ))}
+                <div className="auth-buttons">
+                  <button class="auth" onClick={toggleLoginModal}>Авторизация</button>
+                  <button class="auth" onClick={toggleRegisterModal}>Регистрация</button>
+                </div>
             </div>
             <div className="content">
                 <div key={activeSection} id={activeSection} className={`section active`}>
@@ -132,6 +145,8 @@ const App = () => {
                     )}
                 </div>
             </div>
+            <LoginModal isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
+            <RegisterModal isOpen={isRegisterModalOpen} toggle={toggleRegisterModal} />
         </div>
     );
 }
