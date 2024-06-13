@@ -1,21 +1,20 @@
-import DatePicker from "react-datepicker";
 import React, {Fragment, useState} from "react";
-import ru from 'date-fns/locale/ru';
 import 'react-datepicker/dist/react-datepicker.css';
 import {Modal, ModalBody, ModalHeader} from "reactstrap";
+import AddAndEditTable from "./AddAndEditTable";
 
-const EditingInvoices = ({ values,  handleDateChange, handleEdit, index }) => {
+const EditingInvoices = ({ values, handleEdit, index }) => {
     const [visible, setVisible] = useState(false)
     var button = <button onClick={() => toggle()}>Редактировать</button>;
     const [inputValues, setInputValues] = useState({
         company: values.company,
         year: values.year,
-        bill: values.bill,
-        billposition: values.billposition,
-        IDservices: values.IDservices,
-        IDagreement: values.IDagreement,
-        date: values.date,
-        cost: values.cost
+        invoice_number: values.invoice_number,
+        invoice_position: values.invoice_position,
+        service_id: values.service_id,
+        contract_id: values.contract_id,
+        invoice_reflection_in_the_accounting_system_date: values.invoice_reflection_in_the_accounting_system_date,
+        cost_excluding_VAT: values.cost_excluding_VAT
     });
     const toggle = () => {
         setVisible(!visible)
@@ -29,6 +28,9 @@ const EditingInvoices = ({ values,  handleDateChange, handleEdit, index }) => {
         handleEdit(index, inputValues);
         toggle();
     }
+    const handleDateChange = (invoice_reflection_in_the_accounting_system_date) => {
+        setInputValues({ ...inputValues, ['invoice_reflection_in_the_accounting_system_date']: invoice_reflection_in_the_accounting_system_date });
+    };
 
 
     return (
@@ -41,89 +43,7 @@ const EditingInvoices = ({ values,  handleDateChange, handleEdit, index }) => {
             <ModalBody>
                 <label>
                     Введите значения:
-                    <table className="custom-table">
-                        <thead>
-                        <tr>
-                            <th>Компания</th>
-                            <th>Год</th>
-                            <th>Номер счета</th>
-                            <th>Позиция счета</th>
-                            <th>ID услуги</th>
-                            <th>ID договора</th>
-                            <th>Дата отражения счета в учетной системе</th>
-                            <th>Стоимость без НДС</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <input
-                                    type="text"
-                                    name="company"
-                                    value={inputValues.company}
-                                    onChange={handleInputChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    name="year"
-                                    value={inputValues.year}
-                                    onChange={handleInputChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    name="bill"
-                                    value={inputValues.bill}
-                                    onChange={handleInputChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    name="billposition"
-                                    value={inputValues.billposition}
-                                    onChange={handleInputChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    name="IDservices"
-                                    value={inputValues.IDservices}
-                                    onChange={handleInputChange}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    name="IDagreement"
-                                    value={inputValues.IDagreement}
-                                    onChange={handleInputChange}
-                                />
-                            </td>
-                            <td>
-                                <DatePicker
-                                    selected={inputValues.date}
-                                    onChange={handleDateChange}
-                                    dateFormat="dd-MM-yyyy"
-                                    locale={ru}
-                                    wrapperClassName="width-date-picker"
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    name="cost"
-                                    value={inputValues.cost}
-                                    onChange={handleInputChange}
-                                />
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <AddAndEditTable inputValues={inputValues} handleInputChange={handleInputChange} handleDateChange={handleDateChange}></AddAndEditTable>
                 </label>
                 <button onClick={handleSave}>Сохранить</button>
             </ModalBody>

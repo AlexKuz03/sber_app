@@ -23,7 +23,7 @@ const LaunchDistribution = ({ entries }) => {
                         <tr key={index}>
                             <td><input type="checkbox" id={index}></input></td>
                             {Object.keys(entry).map((key) => (
-                                <td key={key}>{key === 'date' ? new Date(entry[key]).toLocaleDateString() : entry[key]}</td>
+                                <td key={key}>{key === 'invoice_reflection_in_the_accounting_system_date' ? new Date(entry[key]).toLocaleDateString() : entry[key]}</td>
                             ))}
                         </tr>
                     ))}

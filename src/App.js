@@ -7,7 +7,6 @@ import DistributionManagement from './components/DistributionManagement';
 import CostForecasting from './components/CostForecasting';
 import DistributionObjects from './components/DistributionObjects';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Modal, ModalBody} from "reactstrap";
 
 const App = () => {
     const [activeSection, setActiveSection] = useState('launch-distribution');
@@ -15,12 +14,12 @@ const App = () => {
     const [inputValues, setInputValues] = useState({
         company: '',
         year: '',
-        bill: '',
-        billposition: '',
-        IDservices: '',
-        IDagreement: '',
-        date: new Date(),
-        cost: ''
+        invoice_number: '',
+        invoice_position: '',
+        service_id: '',
+        contract_id: '',
+        invoice_reflection_in_the_accounting_system_date: new Date(),
+        cost_excluding_VAT: ''
     });
     const [entries, setEntries] = useState([]);
 
@@ -45,8 +44,8 @@ const App = () => {
         setInputValues({ ...inputValues, [name]: value });
     };
 
-    const handleDateChange = (date) => {
-        setInputValues({ ...inputValues, date });
+    const handleDateChange = (invoice_reflection_in_the_accounting_system_date) => {
+        setInputValues({ ...inputValues, ['invoice_reflection_in_the_accounting_system_date']: invoice_reflection_in_the_accounting_system_date });
     };
 
     const handleSubmit = () => {
@@ -54,12 +53,12 @@ const App = () => {
         setInputValues({
             company: '',
             year: '',
-            bill: '',
-            billposition: '',
-            IDservices: '',
-            IDagreement: '',
-            date: new Date(),
-            cost: ''
+            invoice_number: '',
+            invoice_position: '',
+            service_id: '',
+            contract_id: '',
+            invoice_reflection_in_the_accounting_system_date: new Date(),
+            cost_excluding_VAT: ''
         });
     };
 
@@ -71,17 +70,20 @@ const App = () => {
     const handleEdit = (index, entry) => {
         const nextEntries = entries.map((c, i) => {
             if (i === index) {
-                // Increment the clicked counter
                 return entry;
             } else {
-                // The rest haven't changed
                 return c;
             }
         });
         setEntries(nextEntries);
     };
+    const handleSaveImportEntries = (jsonData) => {
+        setEntries(entries => [...entries, ...jsonData]);
+    };
+
 
     return (
+
         <div>
             <div className="nav">
                 {Object.keys(sections).map((section) => (
@@ -90,7 +92,6 @@ const App = () => {
                     </a>
                 ))}
             </div>
-
             <div className="content">
                 <div key={activeSection} id={activeSection} className={`section active`}>
                     <h2>{sections[activeSection]}</h2>
@@ -103,6 +104,7 @@ const App = () => {
                             entries={entries}
                             handleDelete={handleDelete}
                             handleEdit={handleEdit}
+                            handleSaveImportEntries={handleSaveImportEntries}
                         />
                     )}
                     {activeSection === 'distributed-invoices' && (
