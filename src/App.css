@@ -118,3 +118,8 @@ button:hover {
 .width-date-picker {
   width: 100%;
 }
+
+.launch {
+  float: right;
+  margin-top: 30px;
+}
