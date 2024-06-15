@@ -7,6 +7,7 @@ const LaunchDistribution = ({ entries, handleLaunchDistribution }) => {
             <table className="custom-table">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Компания</th>
                         <th>Год</th>
                         <th>Номер счета</th>

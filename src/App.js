@@ -32,6 +32,29 @@ const App = () => {
     });
     const [entries, setEntries] = useState([]);
 
+
+    const [distributionValues, setDistributionValues] = useState({
+        company: '',
+        year: '',
+        invoice_number: '',
+        invoice_position: '',
+        distribution_position_number: '',
+        reflection_in_the_accounting_system_date: new Date(),
+        contract_id: '',
+        service_id: '',
+        service_class: '',
+        building_id: '',
+        fixed_asset_class: '',
+        fixed_asset_id: '',
+        is_used_in_main_activity: '',
+        is_used_in_rent: '',
+        square: '',
+        distribution_sum: '',
+        general_ledger_account: ''
+    });
+
+    const [data, setData] = useState([]);
+
     const sections = {
         'invoices': 'Счета на оплату',
         'distributed-invoices': 'Распределенные счета на оплату',
@@ -96,10 +119,12 @@ const App = () => {
     };
 
     const handleLaunchDistribution = () => {
-        fetch('/server/endpoint', {
+        fetch('http://127.0.0.1:8000/api/invoice_for_payment/upload_json', {
+            mode: 'no-cors',
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: entries
         })
@@ -117,27 +142,6 @@ const App = () => {
       // пустышка
     };
 
-    const [distributionValues, setDistributionValues] = useState({
-        company: '',
-        year: '',
-        invoice_number: '',
-        invoice_position: '',
-        distribution_position_number: '',
-        reflection_in_the_accounting_system_date: new Date(),
-        contract_id: '',
-        service_id: '',
-        service_class: '',
-        building_id: '',
-        fixed_asset_class: '',
-        fixed_asset_id: '',
-        is_used_in_main_activity: '',
-        is_used_in_rent: '',
-        square: '',
-        distribution_sum: '',
-        general_ledger_account: ''
-    });
-
-    const [data, setData] = useState([]);
 
     const handleInputChangeDistribution = (event) => {
         const { name, value } = event.target;
@@ -221,7 +225,7 @@ const App = () => {
                         <DistributedInvoices />
                     )}
                     {activeSection === 'launch-distribution' && (
-                        <LaunchDistribution entries={entries} />
+                        <LaunchDistribution entries={entries} handleLaunchDistribution={handleLaunchDistribution} />
                     )}
                     {activeSection === 'distribution-management' && (
                       <DistributionManagement
