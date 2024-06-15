@@ -13,7 +13,7 @@ const MyDropzone = ({handleSaveImportEntries}) => {
 
         reader.onload = (e) => {
             const data = e.target.result;
-            const workbook = xlsx.read(data, {type: 'binary'});
+            const workbook = xlsx.read(data, {type: 'binary', cellDates:true, dateNF:'yyyy-mm-dd'});
 
             const sheetName = workbook.SheetNames[0];
             const sheet = workbook.Sheets[sheetName];
