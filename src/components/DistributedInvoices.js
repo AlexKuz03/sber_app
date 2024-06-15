@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 const DistributedInvoices = () => {
     return (
         <div>
-        <table className="custom-table">
+        <table className="distributed-invoices">
             <thead>
             <tr>
                 <th>Номер п/п</th>

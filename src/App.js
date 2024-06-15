@@ -4,6 +4,7 @@ import Invoices from './components/Invoices';
 import DistributedInvoices from './components/DistributedInvoices';
 import LaunchDistribution from './components/LaunchDistribution';
 import DistributionManagement from './components/DistributionManagement';
+import EditingDistributionManagement from './components/EditingDistributionManagement';
 import CostForecasting from './components/CostForecasting';
 import DistributionObjects from './components/DistributionObjects';
 import LoginModal from './components/LoginModal';
@@ -92,6 +93,10 @@ const App = () => {
     };
 
     const handleLaunchDistribution = () => {
+      // пустышка
+    };
+
+    const handleSaveDistribution = () => {
       // пустышка
     };
 

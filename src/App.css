@@ -70,6 +70,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    font-size: 14px;
 }
 
 .custom-table th, .custom-table td {
@@ -80,6 +81,7 @@ body {
 .custom-table th {
     background-color: #f2f2f2;
     text-align: left;
+    box-sizing: border-box;
 }
 
 .custom-table input {
@@ -91,6 +93,7 @@ body {
 
 .save-button{
   margin-top: 30px;
+  margin-bottom: 20px;
 }
 
 .delete-button, .edit-button{
@@ -112,14 +115,38 @@ button:hover {
 
 .dropzone p:hover {
     cursor: pointer;
-    color:darkblue;
+    color: darkblue;
 }
 
 .width-date-picker {
   width: 100%;
 }
 
-.launch {
-  float: right;
+.launch, .save {
   margin-top: 30px;
+}
+
+.distribution-table, .distributed-invoices {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+.distribution-table th, .distribution-table td, .distributed-invoices th, .distributed-invoices td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.distribution-table th, .distributed-invoices th {
+    background-color: #f2f2f2;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.distribution-table input, .distributed-invoices input {
+    width: 100%;
+    padding: 6px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
 }

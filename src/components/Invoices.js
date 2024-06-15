@@ -24,7 +24,7 @@ const Invoices = ({
                 handleInputChange={handleInputChange}
                 handleDateChange={handleDateChange}>
             </AddAndEditTable>
-            <button class="save-button" onClick={handleSubmit}>Сохранить</button>
+            <button class="save-button" onClick={handleSubmit}>Добавить</button>
             <MyDropzone handleSaveImportEntries={handleSaveImportEntries}/>
             <div>
                 <h3>Сохраненные записи:</h3>
@@ -59,7 +59,8 @@ const Invoices = ({
                                     values={entry}
                                     handleDateChange={handleDateChange}
                                     handleEdit={handleEdit}
-                                    index={index}></EditingInvoices>
+                                    index={index}>
+                                </EditingInvoices>
                             </td>
                         </tr>
                     ))}
