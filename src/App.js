@@ -59,6 +59,7 @@ const App = () => {
     };
 
     const handleSubmit = () => {
+        inputValues.invoice_reflection_in_the_accounting_system_date = inputValues.invoice_reflection_in_the_accounting_system_date.toISOString().substring(0, 10);
         setEntries([...entries, inputValues]);
         setInputValues({
             company: '',
@@ -70,6 +71,7 @@ const App = () => {
             invoice_reflection_in_the_accounting_system_date: new Date(),
             cost_excluding_VAT: ''
         });
+        console.log(entries);
     };
 
     const handleDelete = (index) => {
@@ -78,6 +80,7 @@ const App = () => {
     };
 
     const handleEdit = (index, entry) => {
+        entry.invoice_reflection_in_the_accounting_system_date = entry.invoice_reflection_in_the_accounting_system_date.toISOString().substring(0, 10);
         const nextEntries = entries.map((c, i) => {
             if (i === index) {
                 return entry;
@@ -93,7 +96,21 @@ const App = () => {
     };
 
     const handleLaunchDistribution = () => {
-      // пустышка
+        fetch('/server/endpoint', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: entries
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                // Handle data
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
     };
 
     const handleSaveDistribution = () => {
