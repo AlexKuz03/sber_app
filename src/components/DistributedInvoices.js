@@ -10,7 +10,6 @@ const DistributedInvoices = () => {
         <table className="distributed-invoices">
             <thead>
             <tr>
-                <th>Номер п/п</th>
                 <th>Компания</th>
                 <th>Год счета</th>
                 <th>Номер счета</th>

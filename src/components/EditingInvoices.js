@@ -36,7 +36,7 @@ const EditingInvoices = ({ values, handleEdit, index }) => {
     return (
         <div>
         {button}
-        <Modal isOpen={visible} toggle={toggle} size="lg" style={{minWidth: '90%'}}>>
+        <Modal isOpen={visible} toggle={toggle} size="lg" style={{minWidth: '90%'}}>
             <ModalHeader style={{justifyContent: "center"}}>
                 Редактировать
             </ModalHeader>

@@ -14,7 +14,6 @@ const DistributionManagement = ({
             <table className="distribution-table">
                 <thead>
                 <tr>
-                    <th>Номер п/п</th>
                     <th>Компания</th>
                     <th>Год счета</th>
                     <th>Номер счета</th>
