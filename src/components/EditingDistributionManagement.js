@@ -6,7 +6,7 @@ import AddAndEditTable from "./AddAndEditTable";
 const EditingDistributionManagement = ({ values, handleEdit, index }) => {
     const [visible, setVisible] = useState(false)
     var button = <button class="edit-button" onClick={() => toggle()}>Редактировать</button>;
-    const [dustributionValues, setdustributionValues] = useState({
+    const [distributionValues, setDistributionValues] = useState({
         company: values.company,
         year: values.year,
         invoice_number: values.invoice_number,
@@ -31,15 +31,15 @@ const EditingDistributionManagement = ({ values, handleEdit, index }) => {
     }
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setdustributionValues({ ...dustributionValues, [name]: value });
+        setDistributionValues({ ...distributionValues, [name]: value });
 
     };
     const handleSave = () => {
-        handleEdit(index, dustributionValues);
+        handleEdit(index, distributionValues);
         toggle();
     }
     const handleDateChange = (invoice_reflection_in_the_accounting_system_date) => {
-        setdustributionValues({ ...dustributionValues, ['invoice_reflection_in_the_accounting_system_date']: invoice_reflection_in_the_accounting_system_date });
+        setDistributionValues({ ...distributionValues, ['invoice_reflection_in_the_accounting_system_date']: invoice_reflection_in_the_accounting_system_date });
     };
 
     return (
@@ -53,7 +53,7 @@ const EditingDistributionManagement = ({ values, handleEdit, index }) => {
                 <label>
                     Введите значения:
                     <AddAndEditTable
-                        dustributionValues={dustributionValues}
+                        distributionValues={distributionValues}
                         handleInputChange={handleInputChange}
                         handleDateChange={handleDateChange}>
                     </AddAndEditTable>

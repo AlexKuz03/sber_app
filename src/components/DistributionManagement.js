@@ -1,6 +1,13 @@
 import React from 'react';
 
-const DistributionManagement = ( handleSaveDistribution ) => {
+const DistributionManagement = ({
+                handleSaveDistribution,
+                data,
+                handleDeleteDistribution,
+                EditingDistributionManagement,
+                handleDateChangeDistribution,
+                handleEditDistribution
+              }) => {
     return (
         <div>
         <div>
@@ -28,7 +35,26 @@ const DistributionManagement = ( handleSaveDistribution ) => {
                 </tr>
                 </thead>
                 <tbody>
-
+                {data.map((isdata, index) => (
+                    <tr key={index}>
+                        {Object.keys(isdata).map((key) => (
+                            <td key={key}>{key === 'invoice_reflection_in_the_accounting_system_date'
+                            ? new Date(isdata[key]).toLocaleDateString()
+                            : isdata[key]}</td>
+                        ))}
+                        <td>
+                            <button class="delete-button" onClick={() => handleDeleteDistribution(index)}>Удалить</button>
+                        </td>
+                        <td>
+                            <EditingDistributionManagement
+                                values={isdata}
+                                handleDateChange={handleDateChangeDistribution}
+                                handleEdit={handleEditDistribution}
+                                index={index}>
+                            </EditingDistributionManagement>
+                        </td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
             <button class="save" onClick={handleSaveDistribution}>Сохранить</button>

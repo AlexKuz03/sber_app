@@ -100,6 +100,77 @@ const App = () => {
       // пустышка
     };
 
+    const [distributionValues, setDistributionValues] = useState({
+        company: '',
+        year: '',
+        invoice_number: '',
+        invoice_position: '',
+        distribution_position_number: '',
+        reflection_in_the_accounting_system_date: new Date(),
+        contract_id: '',
+        service_id: '',
+        service_class: '',
+        building_id: '',
+        fixed_asset_class: '',
+        fixed_asset_id: '',
+        is_used_in_main_activity: '',
+        is_used_in_rent: '',
+        square: '',
+        distribution_sum: '',
+        general_ledger_account: ''
+    });
+
+    const [data, setData] = useState([]);
+
+    const handleInputChangeDistribution = (event) => {
+        const { name, value } = event.target;
+        setInputValues({ ...distributionValues, [name]: value });
+    };
+
+    const handleDateChangeDistribution = (invoice_reflection_in_the_accounting_system_date) => {
+        setDistributionValues({ ...distributionValues, ['invoice_reflection_in_the_accounting_system_date']
+        : invoice_reflection_in_the_accounting_system_date });
+    };
+
+    const handleSubmitDistribution = () => {
+        setData([...data, distributionValues]);
+        setDistributionValues({
+          company: '',
+          year: '',
+          invoice_number: '',
+          invoice_position: '',
+          distribution_position_number: '',
+          reflection_in_the_accounting_system_date: new Date(),
+          contract_id: '',
+          service_id: '',
+          service_class: '',
+          building_id: '',
+          fixed_asset_class: '',
+          fixed_asset_id: '',
+          is_used_in_main_activity: '',
+          is_used_in_rent: '',
+          square: '',
+          distribution_sum: '',
+          general_ledger_account: ''
+        });
+    };
+
+    const handleDeleteDistribution = (index) => {
+        const newData = data.filter((_, i) => i !== index);
+        setData(newData);
+    };
+
+    const handleEditDistribution = (index, isdata) => {
+        const nextData = data.map((c, i) => {
+            if (i === index) {
+                return isdata;
+            } else {
+                return c;
+            }
+        });
+        setData(nextData);
+    };
+
     return (
 
         <div>
@@ -136,7 +207,14 @@ const App = () => {
                         <LaunchDistribution entries={entries} />
                     )}
                     {activeSection === 'distribution-management' && (
-                        <DistributionManagement />
+                      <DistributionManagement
+                          handleSaveDistribution={handleSaveDistribution}
+                          data={data}
+                          handleDeleteDistribution={handleDeleteDistribution}
+                          EditingDistributionManagement={EditingDistributionManagement}
+                          handleDateChangeDistribution={handleDateChangeDistribution}
+                          handleEditDistribution={handleEditDistribution}
+                      />
                     )}
                     {activeSection === 'cost-forecasting' && (
                         <CostForecasting />
