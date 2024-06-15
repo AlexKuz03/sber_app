@@ -92,8 +92,8 @@ body {
 }
 
 .save-button{
-  margin-top: 30px;
-  margin-bottom: 20px;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 
 .delete-button, .edit-button{
@@ -122,8 +122,9 @@ button:hover {
   width: 100%;
 }
 
-.launch, .save {
-  margin-top: 30px;
+.launch, .save, .load {
+    margin-top: 30px;
+    margin-right: 10px;
 }
 
 .distribution-table, .distributed-invoices {

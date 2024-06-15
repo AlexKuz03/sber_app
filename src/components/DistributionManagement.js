@@ -6,7 +6,8 @@ const DistributionManagement = ({
                 handleDeleteDistribution,
                 EditingDistributionManagement,
                 handleDateChangeDistribution,
-                handleEditDistribution
+                handleEditDistribution,
+                handleSaveInFile
               }) => {
     return (
         <div>
@@ -56,7 +57,8 @@ const DistributionManagement = ({
                 ))}
                 </tbody>
             </table>
-            <button class="save" onClick={handleSaveDistribution}>Сохранить</button>
+            <button class="save" onClick={handleSaveDistribution}>Сохранить в базу данных</button>
+            <button class="save" onClick={handleSaveInFile}>Сохранить в файл</button>
         </div>
         </div>
     );
