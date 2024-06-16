@@ -53,7 +53,7 @@ const App = () => {
         general_ledger_account: ''
     });
 
-    const [data, setData] = useState([]);
+    const [distributionData, setDistributionData] = useState([]);
 
     const sections = {
         'invoices': 'Счета на оплату',
@@ -103,7 +103,6 @@ const App = () => {
     };
 
     const handleEdit = (index, entry) => {
-        entry.invoice_reflection_in_the_accounting_system_date = entry.invoice_reflection_in_the_accounting_system_date.toISOString().substring(0, 10);
         const nextEntries = entries.map((c, i) => {
             if (i === index) {
                 return entry;
@@ -119,22 +118,23 @@ const App = () => {
     };
 
     const handleLaunchDistribution = () => {
+        console.log(entries);
         fetch('http://127.0.0.1:8000/api/invoice_for_payment/upload_json', {
-            mode: 'no-cors',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: entries
+            body: JSON.stringify(entries)
         })
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                // Handle data
+                setDistributionData(data);
             })
             .catch((err) => {
                 console.log(err.message);
             });
+        setActiveSection('distribution-management');
     };
 
     const handleSaveDistribution = () => {
@@ -161,7 +161,7 @@ const App = () => {
     };
 
     const handleSubmitDistribution = () => {
-        setData([...data, distributionValues]);
+        setDistributionData([...distributionData, distributionValues]);
         setDistributionValues({
           company: '',
           year: '',
@@ -184,19 +184,19 @@ const App = () => {
     };
 
     const handleDeleteDistribution = (index) => {
-        const newData = data.filter((_, i) => i !== index);
-        setData(newData);
+        const newData = distributionData.filter((_, i) => i !== index);
+        setDistributionData(newData);
     };
 
     const handleEditDistribution = (index, isdata) => {
-        const nextData = data.map((c, i) => {
+        const nextData = distributionData.map((c, i) => {
             if (i === index) {
                 return isdata;
             } else {
                 return c;
             }
         });
-        setData(nextData);
+        setDistributionData(nextData);
     };
 
     const [finishedValues, setFinishedValues] = useState({
@@ -222,7 +222,7 @@ const App = () => {
     const [final, setFinal] = useState([]);
 
     const handleSubmitFinal = () => {
-        setFinal([...data, finishedValues]);
+        setFinal([...final, finishedValues]);
         setFinishedValues({
           company: '',
           year: '',
@@ -285,7 +285,7 @@ const App = () => {
                     {activeSection === 'distribution-management' && (
                       <DistributionManagement
                           handleSaveDistribution={handleSaveDistribution}
-                          data={data}
+                          data={distributionData}
                           handleDeleteDistribution={handleDeleteDistribution}
                           EditingDistributionManagement={EditingDistributionManagement}
                           handleDateChangeDistribution={handleDateChangeDistribution}
