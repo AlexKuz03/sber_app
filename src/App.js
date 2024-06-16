@@ -83,14 +83,15 @@ const App = () => {
     };
 
     const handleSubmit = () => {
-        if (!inputValues.company
-          || !inputValues.year
-          || !inputValues.invoice_number
-          || !inputValues.invoice_position
-          || !inputValues.service_id
-          || !inputValues.contract_id
-          || !inputValues.invoice_reflection_in_the_accounting_system_date
-          || !inputValues.cost_excluding_VAT) {
+    const requiredFields = [
+        'company', 'year', 'invoice_number', 'invoice_position',
+        'service_id', 'contract_id', 'invoice_reflection_in_the_accounting_system_date',
+        'cost_excluding_VAT'
+    ];
+
+    const emptyFields = requiredFields.filter(field => !inputValues[field]);
+
+        if (emptyFields.length > 0) {
             showError('Все поля должны быть заполнены');
             return;
         }
@@ -131,24 +132,51 @@ const App = () => {
     };
 
     const handleLaunchDistribution = () => {
-        console.log(entries);
+
+    const requiredFields = [
+          'company', 'year', 'invoice_number', 'invoice_position',
+          'service_id', 'contract_id', 'invoice_reflection_in_the_accounting_system_date',
+          'cost_excluding_VAT'
+      ];
+
+    const emptyFields = requiredFields.filter(field => !inputValues[field]);
+
+        if (emptyFields.length > 0) {
+            showError('Все поля должны быть заполнены');
+            return;
+        }
+
         fetch('http://127.0.0.1:8000/api/invoice_for_payment/upload_json', {
             method: 'POST',
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(entries)
         })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setDistributionData(data);
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
-        setActiveSection('distribution-management');
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    console.log('Error data:', errorData);
+                    throw new Error(errorData.message || 'Ошибка');
+                }).catch((err) => {
+                    console.log('JSON parsing error or network error:', err);
+                    throw new Error('Ошибка');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response data:', data);
+            // Handle data
+        })
+        .catch(err => {
+            console.log('Caught error:', err);
+            showError(`Ошибка: ${err.message}`);
+        });
+      setActiveSection('distribution-management');
     };
+
 
     const handleSaveDistribution = () => {
       // сохранение распределения после редактирования
