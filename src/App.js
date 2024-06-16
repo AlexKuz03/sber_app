@@ -152,14 +152,15 @@ const App = () => {
         .then((data) => {
             console.log(data);
             setDistributionData(data);
+            setActiveSection('distribution-management');
         })
         .catch((err) => {
             showError('Ошибка при загрузке данных для распределения: ' + err.message);
             console.error('Ошибка при загрузке данных для распределения: ', err);
         })
-        .finally(() => {
-            setActiveSection('distribution-management');
-        });
+        // .finally(() => {
+        //     setActiveSection('distribution-management');
+        // });
     };
 
     const handleSaveDistribution = () => {
