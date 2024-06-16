@@ -136,7 +136,7 @@ const App = () => {
     };
 
     const handleLaunchDistribution = () => {
-        fetch('http://127.0.0.1:8000/api/invoice_for_payment/upload_json', {
+        fetch('https://task11-p2js.onrender.com/api/invoice_for_payment/upload_json', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -163,7 +163,7 @@ const App = () => {
     };
 
     const handleSaveDistribution = () => {
-        fetch('http://127.0.0.1:8000/api/distributed_invoice_for_payment/upload_json', {
+        fetch('https://task11-p2js.onrender.com/api/distributed_invoice_for_payment/upload_json', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -180,7 +180,7 @@ const App = () => {
     };
 
     const handleLoadHistory = () => {
-        fetch('http://127.0.0.1:8000/api/distributed_invoice_for_payment/', {
+        fetch('https://task11-p2js.onrender.com/api/distributed_invoice_for_payment/', {
             method: 'GET',
             headers: {
             }
