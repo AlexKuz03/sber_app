@@ -9,6 +9,7 @@ import CostForecasting from './components/CostForecasting';
 import DistributionObjects from './components/DistributionObjects';
 import LoginModal from './components/LoginModal';
 import RegisterModal from './components/RegisterModal';
+import ErrorModal from './components/ErrorModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
@@ -82,6 +83,18 @@ const App = () => {
     };
 
     const handleSubmit = () => {
+        if (!inputValues.company
+          || !inputValues.year
+          || !inputValues.invoice_number
+          || !inputValues.invoice_position
+          || !inputValues.service_id
+          || !inputValues.contract_id
+          || !inputValues.invoice_reflection_in_the_accounting_system_date
+          || !inputValues.cost_excluding_VAT) {
+            showError('Все поля должны быть заполнены');
+            return;
+        }
+
         inputValues.invoice_reflection_in_the_accounting_system_date = inputValues.invoice_reflection_in_the_accounting_system_date.toISOString().substring(0, 10);
         setEntries([...entries, inputValues]);
         setInputValues({
@@ -145,7 +158,6 @@ const App = () => {
     const handleLoadHistory = () =>{
       // сохранение распределенного счета на оплату в БД
     };
-
 
     const handleSaveInFile = () => {
       // сохранение в файл
@@ -245,6 +257,17 @@ const App = () => {
         });
     };
 
+    //отлов ошибок
+
+    const [error, setError] = useState({ isOpen: false, message: '' });
+
+    const showError = (message) => {
+        setError({ isOpen: true, message });
+        setTimeout(() => {
+            setError({ isOpen: false, message: '' });
+        }, 10000);
+    };
+
     return (
 
         <div>
@@ -308,6 +331,7 @@ const App = () => {
             </div>
             <LoginModal isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
             <RegisterModal isOpen={isRegisterModalOpen} toggle={toggleRegisterModal} />
+            <ErrorModal isOpen={error.isOpen} toggle={() => setError({ isOpen: false, message: '' })} errorMessage={error.message} />
         </div>
     );
 }
