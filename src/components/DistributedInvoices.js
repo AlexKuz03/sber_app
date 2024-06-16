@@ -3,8 +3,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import MyDropzone from './MyDropzone';
 import ru from 'date-fns/locale/ru';
 import DatePicker from "react-datepicker";
+import EditingInvoices from "./EditingInvoices";
 
-const DistributedInvoices = ({handleLoadHistory}) => {
+const DistributedInvoices = ({historyDistributionData, handleLoadHistory}) => {
     return (
         <div>
         <table className="distributed-invoices">
@@ -30,7 +31,15 @@ const DistributedInvoices = ({handleLoadHistory}) => {
             </tr>
             </thead>
             <tbody>
-                
+            {historyDistributionData.map((entry, index) => (
+                <tr key={index}>
+                    {Object.keys(entry).map((key) => (
+                        <td key={key}>{key === 'invoice_reflection_in_the_accounting_system_date'
+                            ? new Date(entry[key]).toLocaleDateString()
+                            : entry[key]}</td>
+                    ))}
+                </tr>
+            ))}
             </tbody>
         </table>
         <button class="load" onClick={handleLoadHistory}>Загрузить историю</button>

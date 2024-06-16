@@ -55,6 +55,7 @@ const App = () => {
     });
 
     const [distributionData, setDistributionData] = useState([]);
+    const [historyDistributionData, setHistoryDistributionData] = useState([]);
 
     const sections = {
         'invoices': 'Счета на оплату',
@@ -154,15 +155,40 @@ const App = () => {
 
 
     const handleSaveDistribution = () => {
-        // сохранение распределения после редактирования
+        fetch('http://127.0.0.1:8000/api/distributed_invoice_for_payment/upload_json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(distributionData)
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
     };
 
     const handleLoadHistory = () => {
-        // сохранение распределенного счета на оплату в БД
+        fetch('http://127.0.0.1:8000/api/distributed_invoice_for_payment/', {
+            method: 'GET',
+            headers: {
+            }
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setHistoryDistributionData(data);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
     };
 
     const handleSaveInFile = () => {
-        // сохранение в файл
+
     };
 
     const handleInputChangeDistribution = (event) => {
@@ -308,6 +334,7 @@ const App = () => {
                         <DistributedInvoices
                             handleLoadHistory={handleLoadHistory}
                             handleSubmitFinal={handleSubmitFinal}
+                            historyDistributionData={historyDistributionData}
                         />
                     )}
                     {activeSection === 'launch-distribution' && (
