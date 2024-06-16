@@ -10,6 +10,7 @@ import DistributionObjects from './components/DistributionObjects';
 import LoginModal from './components/LoginModal';
 import RegisterModal from './components/RegisterModal';
 import ErrorModal from './components/ErrorModal';
+import ErrorBoundary from './components/ErrorBoundary';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
@@ -141,17 +142,24 @@ const App = () => {
             },
             body: JSON.stringify(entries)
         })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setDistributionData(data);
-            })
-            .catch((err) => {
-                //console.log(err.message);
-            });
-        setActiveSection('distribution-management');
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            setDistributionData(data);
+        })
+        .catch((err) => {
+            showError('Ошибка при загрузке данных для распределения: ' + err.message);
+            console.error('Ошибка при загрузке данных для распределения: ', err);
+        })
+        .finally(() => {
+            setActiveSection('distribution-management');
+        });
     };
-
 
     const handleSaveDistribution = () => {
         // сохранение распределения после редактирования
@@ -269,12 +277,13 @@ const App = () => {
         setError({isOpen: true, message});
         setTimeout(() => {
             setError({isOpen: false, message: ''});
-        }, 10000);
+        }, 600000);
     };
 
     return (
 
         <div>
+          <ErrorBoundary>
             <div className="nav">
                 {Object.keys(sections).map((section) => (
                     <a href="#" key={section} onClick={() => {
@@ -340,6 +349,7 @@ const App = () => {
             <RegisterModal isOpen={isRegisterModalOpen} toggle={toggleRegisterModal}/>
             <ErrorModal isOpen={error.isOpen} toggle={() => setError({isOpen: false, message: ''})}
                         errorMessage={error.message}/>
+            </ErrorBoundary>
         </div>
     );
 }
