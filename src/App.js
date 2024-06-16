@@ -76,7 +76,8 @@ const App = () => {
 
     const handleInputChange = (event) => {
         const {name, value} = event.target;
-        setInputValues({...inputValues, [name]: value});
+        const newValue = name === 'cost_excluding_VAT' ? value.replace(',' , '.') : value;
+        setInputValues({ ...inputValues, [name]: newValue });
     };
 
     const handleDateChange = (invoice_reflection_in_the_accounting_system_date) => {
@@ -87,6 +88,7 @@ const App = () => {
     };
 
     const handleSubmit = () => {
+        setIsLoading(true);
         const requiredFields = [
             'company', 'year', 'invoice_number', 'invoice_position',
             'service_id', 'contract_id', 'invoice_reflection_in_the_accounting_system_date',
@@ -97,9 +99,11 @@ const App = () => {
 
         if (emptyFields.length > 0) {
             showError('Все поля должны быть заполнены');
+            setIsLoading(false);
             return;
         }
 
+        const formattedValue = inputValues.cost_excluding_VAT.replace(',' , '.');
         inputValues.invoice_reflection_in_the_accounting_system_date = inputValues.invoice_reflection_in_the_accounting_system_date.toISOString().substring(0, 10);
         setEntries([...entries, inputValues]);
         setInputValues({
@@ -113,6 +117,7 @@ const App = () => {
             cost_excluding_VAT: ''
         });
         console.log(entries);
+        setIsLoading(false);
     };
 
     const handleDelete = (index) => {
@@ -136,6 +141,7 @@ const App = () => {
     };
 
     const handleLaunchDistribution = () => {
+        setIsLoading(true);
         fetch('https://task11-p2js.onrender.com/api/invoice_for_payment/upload_json', {
             method: 'POST',
             headers: {
@@ -153,17 +159,17 @@ const App = () => {
             console.log(data);
             setDistributionData(data);
             setActiveSection('distribution-management');
+            setIsLoading(false);
         })
         .catch((err) => {
             showError('Ошибка при загрузке данных для распределения: ' + err.message);
             console.error('Ошибка при загрузке данных для распределения: ', err);
+            setIsLoading(false);
         })
-        // .finally(() => {
-        //     setActiveSection('distribution-management');
-        // });
     };
 
     const handleSaveDistribution = () => {
+        setIsLoading(true);
         fetch('https://task11-p2js.onrender.com/api/distributed_invoice_for_payment/upload_json', {
             method: 'POST',
             headers: {
@@ -174,13 +180,16 @@ const App = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
+                setIsLoading(false);
             })
             .catch((err) => {
                 console.log(err.message);
+                setIsLoading(false);
             });
     };
 
     const handleLoadHistory = () => {
+        setIsLoading(true);
         fetch('https://task11-p2js.onrender.com/api/distributed_invoice_for_payment/', {
             method: 'GET',
             headers: {
@@ -190,9 +199,11 @@ const App = () => {
             .then((data) => {
                 console.log(data);
                 setHistoryDistributionData(data);
+                setIsLoading(false);
             })
             .catch((err) => {
                 console.log(err.message);
+                setIsLoading(false);
             });
     };
 
@@ -213,6 +224,7 @@ const App = () => {
     };
 
     const handleSubmitDistribution = () => {
+        setIsLoading(true);
         setDistributionData([...distributionData, distributionValues]);
         setDistributionValues({
             company: '',
@@ -233,6 +245,7 @@ const App = () => {
             distribution_sum: '',
             general_ledger_account: ''
         });
+        setIsLoading(false);
     };
 
     const handleDeleteDistribution = (index) => {
@@ -274,6 +287,7 @@ const App = () => {
     const [final, setFinal] = useState([]);
 
     const handleSubmitFinal = () => {
+        setIsLoading(true);
         setFinal([...final, finishedValues]);
         setFinishedValues({
             company: '',
@@ -294,6 +308,7 @@ const App = () => {
             distribution_sum: '',
             general_ledger_account: ''
         });
+        setIsLoading(false);
     };
 
     //отлов ошибок
@@ -307,9 +322,17 @@ const App = () => {
         }, 600000);
     };
 
+    const [isLoading, setIsLoading] = useState(false);
+
     return (
 
         <div>
+          {isLoading && (
+              <div className="loading-overlay">
+                  <p>Загрузка. Пожалуйста, ожидайте..</p>
+              <div className="spinner"></div>
+                  </div>
+          )}
           <ErrorBoundary>
             <div className="nav">
                 {Object.keys(sections).map((section) => (
