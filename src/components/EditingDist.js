@@ -3,12 +3,11 @@ import 'react-datepicker/dist/react-datepicker.css';
 import {Modal, ModalBody, ModalHeader} from "reactstrap";
 import AddAndEditTable from "./AddAndEditTable";
 import EditDistTable from "./EditDistTable";
-import EditingDist from "./EditingDist";
 
-const EditingDistributionManagement = ({ values, handleEdit, index }) => {
-    const [visible, setVisible] = useState(false)
+const EditingDist = ({ values, handleEdit, index }) => {
+    const [visible, setVisible] = useState(false);
     var button = <button class="edit-button" onClick={() => toggle()}>Редактировать</button>;
-    const [distributionValues, setDistributionValues] = useState({
+    const [inputValues, setInputValues] = useState({
         company: values.company,
         year: values.year,
         invoice_number: values.invoice_number,
@@ -27,42 +26,42 @@ const EditingDistributionManagement = ({ values, handleEdit, index }) => {
         distribution_sum: values.distribution_sum,
         general_ledger_account: values.general_ledger_account
     });
-
     const toggle = () => {
         setVisible(!visible)
     }
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setDistributionValues({ ...distributionValues, [name]: value });
+        setInputValues({ ...inputValues, [name]: value });
 
     };
     const handleSave = () => {
-        handleEdit(index, distributionValues);
+        handleEdit(index, inputValues);
         toggle();
     }
-    const handleDateChange = (invoice_reflection_in_the_accounting_system_date) => {
-        setDistributionValues({ ...distributionValues, ['invoice_reflection_in_the_accounting_system_date']: invoice_reflection_in_the_accounting_system_date });
+    const handleDateChange = (reflection_in_the_accounting_system_date) => {
+        setInputValues({ ...inputValues, ['reflection_in_the_accounting_system_date']: reflection_in_the_accounting_system_date });
     };
+
 
     return (
         <div>
         {button}
-        <Modal isOpen={visible} toggle={toggle} size="lg" style={{minWidth: '90%'}}>>
+        <Modal isOpen={visible} toggle={toggle} size="lg" style={{minWidth: '90%'}}>
             <ModalHeader style={{justifyContent: "center"}}>
                 Редактировать
             </ModalHeader>
             <ModalBody>
                 <label>
                     Введите значения:
-                    <EditingDist
-                        distributionValues={distributionValues}
+                    <EditDistTable
+                        inputValues={inputValues}
                         handleInputChange={handleInputChange}
                         handleDateChange={handleDateChange}>
-                    </EditingDist>
+                    </EditDistTable>
                 </label>
                 <button class="save-button" onClick={handleSave}>Сохранить</button>
             </ModalBody>
         </Modal>
         </div>
     )}
-export default EditingDistributionManagement;
+export default EditingDist;

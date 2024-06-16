@@ -76,8 +76,8 @@ const App = () => {
 
     const handleInputChange = (event) => {
         const {name, value} = event.target;
-        const newValue = name === 'cost_excluding_VAT' ? value.replace(',' , '.') : value;
-        setInputValues({ ...inputValues, [name]: newValue });
+        const newValue = name === 'cost_excluding_VAT' ? value.replace(',', '.') : value;
+        setInputValues({...inputValues, [name]: newValue});
     };
 
     const handleDateChange = (invoice_reflection_in_the_accounting_system_date) => {
@@ -103,7 +103,7 @@ const App = () => {
             return;
         }
 
-        const formattedValue = inputValues.cost_excluding_VAT.replace(',' , '.');
+        const formattedValue = inputValues.cost_excluding_VAT.replace(',', '.');
         inputValues.invoice_reflection_in_the_accounting_system_date = inputValues.invoice_reflection_in_the_accounting_system_date.toISOString().substring(0, 10);
         setEntries([...entries, inputValues]);
         setInputValues({
@@ -135,6 +135,16 @@ const App = () => {
         });
         setEntries(nextEntries);
     };
+    const handleEditDist = (index, entry) => {
+        const nextEntries = distributionData.map((c, i) => {
+            if (i === index) {
+                return entry;
+            } else {
+                return c;
+            }
+        });
+        setDistributionData(nextEntries);
+    };
 
     const handleSaveImportEntries = (jsonData) => {
         setEntries(entries => [...entries, ...jsonData]);
@@ -149,23 +159,23 @@ const App = () => {
             },
             body: JSON.stringify(entries)
         })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
-            return response.json();
-        })
-        .then((data) => {
-            console.log(data);
-            setDistributionData(data);
-            setActiveSection('distribution-management');
-            setIsLoading(false);
-        })
-        .catch((err) => {
-            showError('Ошибка при загрузке данных для распределения: ' + err.message);
-            console.error('Ошибка при загрузке данных для распределения: ', err);
-            setIsLoading(false);
-        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                setDistributionData(data);
+                setActiveSection('distribution-management');
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                showError('Ошибка при загрузке данных для распределения: ' + err.message);
+                console.error('Ошибка при загрузке данных для распределения: ', err);
+                setIsLoading(false);
+            })
     };
 
     const handleSaveDistribution = () => {
@@ -192,8 +202,7 @@ const App = () => {
         setIsLoading(true);
         fetch('https://task11-p2js.onrender.com/api/distributed_invoice_for_payment/', {
             method: 'GET',
-            headers: {
-            }
+            headers: {}
         })
             .then((response) => response.json())
             .then((data) => {
@@ -208,7 +217,36 @@ const App = () => {
     };
 
     const handleSaveInFile = () => {
+        const rows = [
+            ["","Компания", "Год счета", "Номер счета", "Позиция счета", "Номер позиции распределения", "Дата отражения в учетной системе", "ID договора", "Услуга", "ID услуги", "Здание", "Класс ОС", "ID основного средства", "Признак использования в основной деятель", "Признак передачи в аренду", "Площадь", "Сумма распределения", "Счет главной книги"],
+            ...distributionData.map(item => [
+                item.company,
+                item.year,
+                item.invoice_number,
+                item.invoice_position,
+                item.distribution_position_number,
+                item.reflection_in_the_accounting_system_date,
+                item.contract_id,
+                item.service_id,
+                item.service_class,
+                item.building_id,
+                item.fixed_asset_class,
+                item.fixed_asset_id,
+                item.is_used_in_main_activity,
+                item.is_used_in_rent,
+                item.square,
+                item.distribution_sum,
+                item.general_ledger_account
+            ])
+        ];
+        let csvContent = "data:text/csv; charset=utf-8;";
 
+        rows.forEach(function (rowArray) {
+            let row = rowArray.join(",");
+            csvContent += row + "\r\n";
+        });
+        var encodedUri = encodeURI(csvContent);
+        window.open(encodedUri);
     };
 
     const handleInputChangeDistribution = (event) => {
@@ -223,45 +261,9 @@ const App = () => {
         });
     };
 
-    const handleSubmitDistribution = () => {
-        setIsLoading(true);
-        setDistributionData([...distributionData, distributionValues]);
-        setDistributionValues({
-            company: '',
-            year: '',
-            invoice_number: '',
-            invoice_position: '',
-            distribution_position_number: '',
-            reflection_in_the_accounting_system_date: new Date(),
-            contract_id: '',
-            service_id: '',
-            service_class: '',
-            building_id: '',
-            fixed_asset_class: '',
-            fixed_asset_id: '',
-            is_used_in_main_activity: '',
-            is_used_in_rent: '',
-            square: '',
-            distribution_sum: '',
-            general_ledger_account: ''
-        });
-        setIsLoading(false);
-    };
-
     const handleDeleteDistribution = (index) => {
         const newData = distributionData.filter((_, i) => i !== index);
         setDistributionData(newData);
-    };
-
-    const handleEditDistribution = (index, isdata) => {
-        const nextData = distributionData.map((c, i) => {
-            if (i === index) {
-                return isdata;
-            } else {
-                return c;
-            }
-        });
-        setDistributionData(nextData);
     };
 
     const [finishedValues, setFinishedValues] = useState({
@@ -286,32 +288,6 @@ const App = () => {
 
     const [final, setFinal] = useState([]);
 
-    const handleSubmitFinal = () => {
-        setIsLoading(true);
-        setFinal([...final, finishedValues]);
-        setFinishedValues({
-            company: '',
-            year: '',
-            invoice_number: '',
-            invoice_position: '',
-            distribution_position_number: '',
-            reflection_in_the_accounting_system_date: new Date(),
-            contract_id: '',
-            service_id: '',
-            service_class: '',
-            building_id: '',
-            fixed_asset_class: '',
-            fixed_asset_id: '',
-            is_used_in_main_activity: '',
-            is_used_in_rent: '',
-            square: '',
-            distribution_sum: '',
-            general_ledger_account: ''
-        });
-        setIsLoading(false);
-    };
-
-    //отлов ошибок
 
     const [error, setError] = useState({isOpen: false, message: ''});
 
@@ -327,79 +303,77 @@ const App = () => {
     return (
 
         <div>
-          {isLoading && (
-              <div className="loading-overlay">
-                  <p>Загрузка. Пожалуйста, ожидайте..</p>
-              <div className="spinner"></div>
-                  </div>
-          )}
-          <ErrorBoundary>
-            <div className="nav">
-                {Object.keys(sections).map((section) => (
-                    <a href="#" key={section} onClick={() => {
-                        setActiveSection(section);
-                        setActiveSubsection('');
-                    }}>
-                        {sections[section]}
-                    </a>
-                ))}
-                <div className="auth-buttons">
-                    <button class="auth" onClick={toggleLoginModal}>Авторизация</button>
-                    <button class="auth" onClick={toggleRegisterModal}>Регистрация</button>
+            {isLoading && (
+                <div className="loading-overlay">
+                    <p>Загрузка. Пожалуйста, ожидайте..</p>
+                    <div className="spinner"></div>
                 </div>
-            </div>
-            <div className="content">
-                <div key={activeSection} id={activeSection} className={`section active`}>
-                    <h2>{sections[activeSection]}</h2>
-                    {activeSection === 'invoices' && (
-                        <Invoices
-                            inputValues={inputValues}
-                            handleInputChange={handleInputChange}
-                            handleDateChange={handleDateChange}
-                            handleSubmit={handleSubmit}
-                            entries={entries}
-                            handleDelete={handleDelete}
-                            handleEdit={handleEdit}
-                            handleSaveImportEntries={handleSaveImportEntries}
-                        />
-                    )}
-                    {activeSection === 'distributed-invoices' && (
-                        <DistributedInvoices
-                            handleLoadHistory={handleLoadHistory}
-                            handleSubmitFinal={handleSubmitFinal}
-                            historyDistributionData={historyDistributionData}
-                        />
-                    )}
-                    {activeSection === 'launch-distribution' && (
-                        <LaunchDistribution entries={entries} handleLaunchDistribution={handleLaunchDistribution}/>
-                    )}
-                    {activeSection === 'distribution-management' && (
-                        <DistributionManagement
-                            handleSaveDistribution={handleSaveDistribution}
-                            data={distributionData}
-                            handleDeleteDistribution={handleDeleteDistribution}
-                            EditingDistributionManagement={EditingDistributionManagement}
-                            handleDateChangeDistribution={handleDateChangeDistribution}
-                            handleEditDistribution={handleEditDistribution}
-                            handleSaveInFile={handleSaveInFile}
-                        />
-                    )}
-                    {activeSection === 'cost-forecasting' && (
-                        <CostForecasting/>
-                    )}
-                    {activeSection === 'distribution-objects' && (
-                        <DistributionObjects
-                            activeSubsection={activeSubsection}
-                            setActiveSubsection={setActiveSubsection}
-                            subsections={subsections}
-                        />
-                    )}
+            )}
+            <ErrorBoundary>
+                <div className="nav">
+                    {Object.keys(sections).map((section) => (
+                        <a href="#" key={section} onClick={() => {
+                            setActiveSection(section);
+                            setActiveSubsection('');
+                        }}>
+                            {sections[section]}
+                        </a>
+                    ))}
+                    <div className="auth-buttons">
+                        <button class="auth" onClick={toggleLoginModal}>Авторизация</button>
+                        <button class="auth" onClick={toggleRegisterModal}>Регистрация</button>
+                    </div>
                 </div>
-            </div>
-            <LoginModal isOpen={isLoginModalOpen} toggle={toggleLoginModal}/>
-            <RegisterModal isOpen={isRegisterModalOpen} toggle={toggleRegisterModal}/>
-            <ErrorModal isOpen={error.isOpen} toggle={() => setError({isOpen: false, message: ''})}
-                        errorMessage={error.message}/>
+                <div className="content">
+                    <div key={activeSection} id={activeSection} className={`section active`}>
+                        <h2>{sections[activeSection]}</h2>
+                        {activeSection === 'invoices' && (
+                            <Invoices
+                                inputValues={inputValues}
+                                handleInputChange={handleInputChange}
+                                handleDateChange={handleDateChange}
+                                handleSubmit={handleSubmit}
+                                entries={entries}
+                                handleDelete={handleDelete}
+                                handleEdit={handleEdit}
+                                handleSaveImportEntries={handleSaveImportEntries}
+                            />
+                        )}
+                        {activeSection === 'distributed-invoices' && (
+                            <DistributedInvoices
+                                handleLoadHistory={handleLoadHistory}
+                                historyDistributionData={historyDistributionData}
+                            />
+                        )}
+                        {activeSection === 'launch-distribution' && (
+                            <LaunchDistribution entries={entries} handleLaunchDistribution={handleLaunchDistribution}/>
+                        )}
+                        {activeSection === 'distribution-management' && (
+                            <DistributionManagement
+                                handleSaveDistribution={handleSaveDistribution}
+                                data={distributionData}
+                                handleDeleteDistribution={handleDeleteDistribution}
+                                handleDateChangeDistribution={handleDateChangeDistribution}
+                                handleEditDistribution={handleEditDist}
+                                handleSaveInFile={handleSaveInFile}
+                            />
+                        )}
+                        {activeSection === 'cost-forecasting' && (
+                            <CostForecasting/>
+                        )}
+                        {activeSection === 'distribution-objects' && (
+                            <DistributionObjects
+                                activeSubsection={activeSubsection}
+                                setActiveSubsection={setActiveSubsection}
+                                subsections={subsections}
+                            />
+                        )}
+                    </div>
+                </div>
+                <LoginModal isOpen={isLoginModalOpen} toggle={toggleLoginModal}/>
+                <RegisterModal isOpen={isRegisterModalOpen} toggle={toggleRegisterModal}/>
+                <ErrorModal isOpen={error.isOpen} toggle={() => setError({isOpen: false, message: ''})}
+                            errorMessage={error.message}/>
             </ErrorBoundary>
         </div>
     );
