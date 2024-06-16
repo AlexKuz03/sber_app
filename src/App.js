@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import Invoices from './components/Invoices';
 import DistributedInvoices from './components/DistributedInvoices';
@@ -73,23 +73,25 @@ const App = () => {
     };
 
     const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setInputValues({ ...inputValues, [name]: value });
+        const {name, value} = event.target;
+        setInputValues({...inputValues, [name]: value});
     };
 
     const handleDateChange = (invoice_reflection_in_the_accounting_system_date) => {
-        setInputValues({ ...inputValues, ['invoice_reflection_in_the_accounting_system_date']
-        : invoice_reflection_in_the_accounting_system_date });
+        setInputValues({
+            ...inputValues,
+            ['invoice_reflection_in_the_accounting_system_date']: invoice_reflection_in_the_accounting_system_date
+        });
     };
 
     const handleSubmit = () => {
-    const requiredFields = [
-        'company', 'year', 'invoice_number', 'invoice_position',
-        'service_id', 'contract_id', 'invoice_reflection_in_the_accounting_system_date',
-        'cost_excluding_VAT'
-    ];
+        const requiredFields = [
+            'company', 'year', 'invoice_number', 'invoice_position',
+            'service_id', 'contract_id', 'invoice_reflection_in_the_accounting_system_date',
+            'cost_excluding_VAT'
+        ];
 
-    const emptyFields = requiredFields.filter(field => !inputValues[field]);
+        const emptyFields = requiredFields.filter(field => !inputValues[field]);
 
         if (emptyFields.length > 0) {
             showError('Все поля должны быть заполнены');
@@ -132,94 +134,69 @@ const App = () => {
     };
 
     const handleLaunchDistribution = () => {
-
-    const requiredFields = [
-          'company', 'year', 'invoice_number', 'invoice_position',
-          'service_id', 'contract_id', 'invoice_reflection_in_the_accounting_system_date',
-          'cost_excluding_VAT'
-      ];
-
-    const emptyFields = requiredFields.filter(field => !inputValues[field]);
-
-        if (emptyFields.length > 0) {
-            showError('Все поля должны быть заполнены');
-            return;
-        }
-
         fetch('http://127.0.0.1:8000/api/invoice_for_payment/upload_json', {
             method: 'POST',
             headers: {
-                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(entries)
         })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    console.log('Error data:', errorData);
-                    throw new Error(errorData.message || 'Ошибка');
-                }).catch((err) => {
-                    console.log('JSON parsing error or network error:', err);
-                    throw new Error('Ошибка');
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Response data:', data);
-            // Handle data
-        })
-        .catch(err => {
-            console.log('Caught error:', err);
-            showError(`Ошибка: ${err.message}`);
-        });
-      setActiveSection('distribution-management');
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setDistributionData(data);
+            })
+            .catch((err) => {
+                //console.log(err.message);
+            });
+        setActiveSection('distribution-management');
     };
 
 
     const handleSaveDistribution = () => {
-      // сохранение распределения после редактирования
+        // сохранение распределения после редактирования
     };
 
-    const handleLoadHistory = () =>{
-      // сохранение распределенного счета на оплату в БД
+    const handleLoadHistory = () => {
+        // сохранение распределенного счета на оплату в БД
     };
 
     const handleSaveInFile = () => {
-      // сохранение в файл
+        // сохранение в файл
     };
 
     const handleInputChangeDistribution = (event) => {
-        const { name, value } = event.target;
-        setInputValues({ ...distributionValues, [name]: value });
+        const {name, value} = event.target;
+        setInputValues({...distributionValues, [name]: value});
     };
 
     const handleDateChangeDistribution = (invoice_reflection_in_the_accounting_system_date) => {
-        setDistributionValues({ ...distributionValues, ['invoice_reflection_in_the_accounting_system_date']
-        : invoice_reflection_in_the_accounting_system_date });
+        setDistributionValues({
+            ...distributionValues,
+            ['invoice_reflection_in_the_accounting_system_date']: invoice_reflection_in_the_accounting_system_date
+        });
     };
 
     const handleSubmitDistribution = () => {
         setDistributionData([...distributionData, distributionValues]);
         setDistributionValues({
-          company: '',
-          year: '',
-          invoice_number: '',
-          invoice_position: '',
-          distribution_position_number: '',
-          reflection_in_the_accounting_system_date: new Date(),
-          contract_id: '',
-          service_id: '',
-          service_class: '',
-          building_id: '',
-          fixed_asset_class: '',
-          fixed_asset_id: '',
-          is_used_in_main_activity: '',
-          is_used_in_rent: '',
-          square: '',
-          distribution_sum: '',
-          general_ledger_account: ''
+            company: '',
+            year: '',
+            invoice_number: '',
+            invoice_position: '',
+            distribution_position_number: '',
+            reflection_in_the_accounting_system_date: new Date(),
+            contract_id: '',
+            service_id: '',
+            service_class: '',
+            building_id: '',
+            fixed_asset_class: '',
+            fixed_asset_id: '',
+            is_used_in_main_activity: '',
+            is_used_in_rent: '',
+            square: '',
+            distribution_sum: '',
+            general_ledger_account: ''
         });
     };
 
@@ -264,34 +241,34 @@ const App = () => {
     const handleSubmitFinal = () => {
         setFinal([...final, finishedValues]);
         setFinishedValues({
-          company: '',
-          year: '',
-          invoice_number: '',
-          invoice_position: '',
-          distribution_position_number: '',
-          reflection_in_the_accounting_system_date: new Date(),
-          contract_id: '',
-          service_id: '',
-          service_class: '',
-          building_id: '',
-          fixed_asset_class: '',
-          fixed_asset_id: '',
-          is_used_in_main_activity: '',
-          is_used_in_rent: '',
-          square: '',
-          distribution_sum: '',
-          general_ledger_account: ''
+            company: '',
+            year: '',
+            invoice_number: '',
+            invoice_position: '',
+            distribution_position_number: '',
+            reflection_in_the_accounting_system_date: new Date(),
+            contract_id: '',
+            service_id: '',
+            service_class: '',
+            building_id: '',
+            fixed_asset_class: '',
+            fixed_asset_id: '',
+            is_used_in_main_activity: '',
+            is_used_in_rent: '',
+            square: '',
+            distribution_sum: '',
+            general_ledger_account: ''
         });
     };
 
     //отлов ошибок
 
-    const [error, setError] = useState({ isOpen: false, message: '' });
+    const [error, setError] = useState({isOpen: false, message: ''});
 
     const showError = (message) => {
-        setError({ isOpen: true, message });
+        setError({isOpen: true, message});
         setTimeout(() => {
-            setError({ isOpen: false, message: '' });
+            setError({isOpen: false, message: ''});
         }, 10000);
     };
 
@@ -300,13 +277,16 @@ const App = () => {
         <div>
             <div className="nav">
                 {Object.keys(sections).map((section) => (
-                    <a href="#" key={section} onClick={() => { setActiveSection(section); setActiveSubsection(''); }}>
+                    <a href="#" key={section} onClick={() => {
+                        setActiveSection(section);
+                        setActiveSubsection('');
+                    }}>
                         {sections[section]}
                     </a>
                 ))}
                 <div className="auth-buttons">
-                  <button class="auth" onClick={toggleLoginModal}>Авторизация</button>
-                  <button class="auth" onClick={toggleRegisterModal}>Регистрация</button>
+                    <button class="auth" onClick={toggleLoginModal}>Авторизация</button>
+                    <button class="auth" onClick={toggleRegisterModal}>Регистрация</button>
                 </div>
             </div>
             <div className="content">
@@ -331,21 +311,21 @@ const App = () => {
                         />
                     )}
                     {activeSection === 'launch-distribution' && (
-                        <LaunchDistribution entries={entries} handleLaunchDistribution={handleLaunchDistribution} />
+                        <LaunchDistribution entries={entries} handleLaunchDistribution={handleLaunchDistribution}/>
                     )}
                     {activeSection === 'distribution-management' && (
-                      <DistributionManagement
-                          handleSaveDistribution={handleSaveDistribution}
-                          data={distributionData}
-                          handleDeleteDistribution={handleDeleteDistribution}
-                          EditingDistributionManagement={EditingDistributionManagement}
-                          handleDateChangeDistribution={handleDateChangeDistribution}
-                          handleEditDistribution={handleEditDistribution}
-                          handleSaveInFile={handleSaveInFile}
-                      />
+                        <DistributionManagement
+                            handleSaveDistribution={handleSaveDistribution}
+                            data={distributionData}
+                            handleDeleteDistribution={handleDeleteDistribution}
+                            EditingDistributionManagement={EditingDistributionManagement}
+                            handleDateChangeDistribution={handleDateChangeDistribution}
+                            handleEditDistribution={handleEditDistribution}
+                            handleSaveInFile={handleSaveInFile}
+                        />
                     )}
                     {activeSection === 'cost-forecasting' && (
-                        <CostForecasting />
+                        <CostForecasting/>
                     )}
                     {activeSection === 'distribution-objects' && (
                         <DistributionObjects
@@ -356,9 +336,10 @@ const App = () => {
                     )}
                 </div>
             </div>
-            <LoginModal isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
-            <RegisterModal isOpen={isRegisterModalOpen} toggle={toggleRegisterModal} />
-            <ErrorModal isOpen={error.isOpen} toggle={() => setError({ isOpen: false, message: '' })} errorMessage={error.message} />
+            <LoginModal isOpen={isLoginModalOpen} toggle={toggleLoginModal}/>
+            <RegisterModal isOpen={isRegisterModalOpen} toggle={toggleRegisterModal}/>
+            <ErrorModal isOpen={error.isOpen} toggle={() => setError({isOpen: false, message: ''})}
+                        errorMessage={error.message}/>
         </div>
     );
 }
