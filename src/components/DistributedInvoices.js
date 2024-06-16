@@ -11,6 +11,7 @@ const DistributedInvoices = ({historyDistributionData, handleLoadHistory}) => {
         <table className="distributed-invoices">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Компания</th>
                 <th>Год счета</th>
                 <th>Номер счета</th>
