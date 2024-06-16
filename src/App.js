@@ -138,9 +138,17 @@ const App = () => {
     };
 
     const handleSaveDistribution = () => {
-      // пустышка
+      // сохранение распределения после редактирования
     };
 
+    const handleLoadHistory = () =>{
+      // сохранение распределенного счета на оплату в БД
+    };
+
+
+    const handleSaveInFile = () => {
+      // сохранение в файл
+    };
 
     const handleInputChangeDistribution = (event) => {
         const { name, value } = event.target;
@@ -191,6 +199,51 @@ const App = () => {
         setData(nextData);
     };
 
+    const [finishedValues, setFinishedValues] = useState({
+        company: '',
+        year: '',
+        invoice_number: '',
+        invoice_position: '',
+        distribution_position_number: '',
+        reflection_in_the_accounting_system_date: new Date(),
+        contract_id: '',
+        service_id: '',
+        service_class: '',
+        building_id: '',
+        fixed_asset_class: '',
+        fixed_asset_id: '',
+        is_used_in_main_activity: '',
+        is_used_in_rent: '',
+        square: '',
+        distribution_sum: '',
+        general_ledger_account: ''
+    });
+
+    const [final, setFinal] = useState([]);
+
+    const handleSubmitFinal = () => {
+        setFinal([...data, finishedValues]);
+        setFinishedValues({
+          company: '',
+          year: '',
+          invoice_number: '',
+          invoice_position: '',
+          distribution_position_number: '',
+          reflection_in_the_accounting_system_date: new Date(),
+          contract_id: '',
+          service_id: '',
+          service_class: '',
+          building_id: '',
+          fixed_asset_class: '',
+          fixed_asset_id: '',
+          is_used_in_main_activity: '',
+          is_used_in_rent: '',
+          square: '',
+          distribution_sum: '',
+          general_ledger_account: ''
+        });
+    };
+
     return (
 
         <div>
@@ -221,7 +274,10 @@ const App = () => {
                         />
                     )}
                     {activeSection === 'distributed-invoices' && (
-                        <DistributedInvoices />
+                        <DistributedInvoices
+                            handleLoadHistory={handleLoadHistory}
+                            handleSubmitFinal={handleSubmitFinal}
+                        />
                     )}
                     {activeSection === 'launch-distribution' && (
                         <LaunchDistribution entries={entries} handleLaunchDistribution={handleLaunchDistribution} />
@@ -234,6 +290,7 @@ const App = () => {
                           EditingDistributionManagement={EditingDistributionManagement}
                           handleDateChangeDistribution={handleDateChangeDistribution}
                           handleEditDistribution={handleEditDistribution}
+                          handleSaveInFile={handleSaveInFile}
                       />
                     )}
                     {activeSection === 'cost-forecasting' && (

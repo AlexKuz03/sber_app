@@ -24,7 +24,7 @@ const Invoices = ({
                 handleInputChange={handleInputChange}
                 handleDateChange={handleDateChange}>
             </AddAndEditTable>
-            <button class="save-button" onClick={handleSubmit}>Добавить</button>
+            <button class="save-button" onClick={handleSubmit}>Добавить к распределению</button>
             <MyDropzone handleSaveImportEntries={handleSaveImportEntries}/>
             <div>
                 <h3>Сохраненные записи:</h3>

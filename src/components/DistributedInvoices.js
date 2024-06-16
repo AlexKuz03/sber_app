@@ -4,7 +4,7 @@ import MyDropzone from './MyDropzone';
 import ru from 'date-fns/locale/ru';
 import DatePicker from "react-datepicker";
 
-const DistributedInvoices = () => {
+const DistributedInvoices = ({handleLoadHistory}) => {
     return (
         <div>
         <table className="distributed-invoices">
@@ -30,9 +30,10 @@ const DistributedInvoices = () => {
             </tr>
             </thead>
             <tbody>
-
+                
             </tbody>
         </table>
+        <button class="load" onClick={handleLoadHistory}>Загрузить историю</button>
         </div>
     );
 };
