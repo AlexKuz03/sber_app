@@ -66,14 +66,19 @@ body {
     display: block;
 }
 
-.custom-table {
+.custom-table,
+.handbook-buildings,
+.handbook-fixed-assets,
+.handbook-services,
+.handbook-contracts {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 14px;
 }
 
-.custom-table th, .custom-table td {
+.custom-table th,
+.custom-table td {
     border: 1px solid #ddd;
     padding: 8px;
 }
@@ -91,12 +96,13 @@ body {
     border: 1px solid #ccc;
 }
 
-.save-button{
+.save-button {
     margin-top: 30px;
     margin-bottom: 20px;
 }
 
-.delete-button, .edit-button{
+.delete-button,
+.edit-button {
   width: 100%;
 }
 
@@ -127,19 +133,36 @@ button:hover {
     margin-right: 10px;
 }
 
-.distribution-table, .distributed-invoices {
+.distribution-table,
+.distributed-invoices {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 12px;
 }
 
-.distribution-table th, .distribution-table td, .distributed-invoices th, .distributed-invoices td {
+.distribution-table th,
+.distribution-table td,
+.distributed-invoices th,
+.distributed-invoices td,
+.handbook-buildings th,
+.handbook-buildings td,
+.handbook-fixed-assets th,
+.handbook-fixed-assets td,
+.handbook-services th,
+.handbook-services td,
+.handbook-contracts th,
+.handbook-contracts td {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-.distribution-table th, .distributed-invoices th {
+.distribution-table th,
+.distributed-invoices th,
+.handbook-buildings th,
+.handbook-fixed-assets th,
+.handbook-services th,
+.handbook-contracts th {
     background-color: #f2f2f2;
     text-align: left;
     box-sizing: border-box;
@@ -177,6 +200,7 @@ button:hover {
     border-radius: 50%;
     width: 50px;
     height: 50px;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 

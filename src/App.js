@@ -69,7 +69,7 @@ const App = () => {
 
     const subsections = {
         'buildings': 'Ведение справочника зданий',
-        'assets': 'Ведение справочника основных средств',
+        'fixed-assets': 'Ведение справочника основных средств',
         'services': 'Ведение справочника работ/услуг',
         'contracts': 'Ведение справочника договоров'
     };
@@ -310,8 +310,6 @@ const App = () => {
         });
         setIsLoading(false);
     };
-
-    //отлов ошибок
 
     const [error, setError] = useState({isOpen: false, message: ''});
 

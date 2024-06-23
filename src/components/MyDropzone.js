@@ -3,10 +3,19 @@ import {useDropzone} from "react-dropzone";
 import * as xlsx from "xlsx";
 
 const MyDropzone = ({handleSaveImportEntries}) => {
-    const headers = ["company", "year", "invoice_number", "invoice_position", "service_id", "contract_id", "invoice_reflection_in_the_accounting_system_date", "cost_excluding_VAT"];
+    const headers = [ "company", 
+                      "year",
+                      "invoice_number",
+                      "invoice_position",
+                      "service_id",
+                      "contract_id",
+                      "invoice_reflection_in_the_accounting_system_date",
+                      "cost_excluding_VAT"];
     const [files, setFiles] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const onDrop = useCallback((acceptedFiles) => {
+        setIsLoading(true);
         const file = acceptedFiles[0];
 
         const reader = new FileReader();
@@ -25,6 +34,7 @@ const MyDropzone = ({handleSaveImportEntries}) => {
             }
             console.log(jsonData);
             handleSaveImportEntries(jsonData);
+            setIsLoading(false);
         };
         reader.readAsBinaryString(file);
     }, []);
