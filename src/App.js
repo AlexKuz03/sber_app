@@ -32,8 +32,8 @@ const App = () => {
         invoice_reflection_in_the_accounting_system_date: new Date(),
         cost_excluding_VAT: ''
     });
-    const [entries, setEntries] = useState([]);
 
+    const [entries, setEntries] = useState([]);
 
     const [distributionValues, setDistributionValues] = useState({
         company: '',
@@ -76,7 +76,7 @@ const App = () => {
 
     const handleInputChange = (event) => {
         const {name, value} = event.target;
-        const newValue = name === 'cost_excluding_VAT' ? value.replace(',', '.') : value;
+        const newValue = name === 'cost_excluding_VAT' ? value.replace(',' , '.') : value;
         setInputValues({...inputValues, [name]: newValue});
     };
 
@@ -103,7 +103,7 @@ const App = () => {
             return;
         }
 
-        const formattedValue = inputValues.cost_excluding_VAT.replace(',', '.');
+        const formattedValue = inputValues.cost_excluding_VAT.replace(',' , '.');
         inputValues.invoice_reflection_in_the_accounting_system_date = inputValues.invoice_reflection_in_the_accounting_system_date.toISOString().substring(0, 10);
         setEntries([...entries, inputValues]);
         setInputValues({
@@ -217,8 +217,24 @@ const App = () => {
     };
 
     const handleSaveInFile = () => {
-        const rows = [
-            ["","Компания", "Год счета", "Номер счета", "Позиция счета", "Номер позиции распределения", "Дата отражения в учетной системе", "ID договора", "Услуга", "ID услуги", "Здание", "Класс ОС", "ID основного средства", "Признак использования в основной деятель", "Признак передачи в аренду", "Площадь", "Сумма распределения", "Счет главной книги"],
+        const rows = [[ "",
+                        "Компания",
+                        "Год счета",
+                        "Номер счета",
+                        "Позиция счета",
+                        "Номер позиции распределения",
+                        "Дата отражения в учетной системе",
+                        "ID договора",
+                        "Услуга",
+                        "ID услуги",
+                        "Здание",
+                        "Класс ОС",
+                        "ID основного средства",
+                        "Признак использования в основной деятель",
+                        "Признак передачи в аренду",
+                        "Площадь",
+                        "Сумма распределения",
+                        "Счет главной книги"],
             ...distributionData.map(item => [
                 item.company,
                 item.year,
@@ -313,6 +329,86 @@ const App = () => {
         setIsLoading(false);
     };
 
+    const [buildings, getBuildings] = useState([]);
+
+    const handleLoadBuildings = () => {
+        setIsLoading(true);
+        fetch('https://task11-p2js.onrender.com/api/building/', {
+            method: 'GET',
+            headers: {}
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                getBuildings(data);
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.log(err.message);
+                setIsLoading(false);
+            });
+    };
+
+    const [fixedAssets, getFixedAssets] = useState([]);
+
+    const handleLoadFixedAssets = () => {
+        setIsLoading(true);
+        fetch('https://task11-p2js.onrender.com/api/fixed_asset/', {
+            method: 'GET',
+            headers: {}
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                getFixedAssets(data);
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.log(err.message);
+                setIsLoading(false);
+            });
+    };
+
+    const [services, getServices] = useState([]);
+
+    const handleLoadServices = () => {
+        setIsLoading(true);
+        fetch('https://task11-p2js.onrender.com/api/service/', {
+            method: 'GET',
+            headers: {}
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                getServices(data);
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.log(err.message);
+                setIsLoading(false);
+            });
+    };
+
+    const [contracts, getContracts] = useState([]);
+
+    const handleLoadContracts = () => {
+        setIsLoading(true);
+        fetch('https://task11-p2js.onrender.com/api/contract/', {
+            method: 'GET',
+            headers: {}
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                getContracts(data);
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.log(err.message);
+                setIsLoading(false);
+            });
+    };
+
     const [error, setError] = useState({isOpen: false, message: ''});
 
     const showError = (message) => {
@@ -391,6 +487,18 @@ const App = () => {
                                 activeSubsection={activeSubsection}
                                 setActiveSubsection={setActiveSubsection}
                                 subsections={subsections}
+                                buildings={buildings}
+                                getBuildings={getBuildings}
+                                handleLoadBuildings={handleLoadBuildings}
+                                fixedAssets={fixedAssets}
+                                getFixedAssets={getFixedAssets}
+                                handleLoadFixedAssets={handleLoadFixedAssets}
+                                services={services}
+                                getServices={getServices}
+                                handleLoadServices={handleLoadServices}
+                                contracts={contracts}
+                                getContracts={getContracts}
+                                handleLoadContracts={handleLoadContracts}
                             />
                         )}
                     </div>
