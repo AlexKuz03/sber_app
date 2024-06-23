@@ -3,7 +3,8 @@ import React from 'react';
 const LaunchDistribution = ({ entries, handleLaunchDistribution }) => {
     return (
         <div>
-            <h3>Сохраненные записи:</h3>
+        <button className="launch" onClick={handleLaunchDistribution}>Запустить</button>
+            <h3>Записи к распределению</h3>
             <table className="custom-table">
                 <thead>
                     <tr>
@@ -32,7 +33,7 @@ const LaunchDistribution = ({ entries, handleLaunchDistribution }) => {
                     ))}
                 </tbody>
             </table>
-          <button className="launch" onClick={handleLaunchDistribution}>Запуск распределения</button>
+
         </div>
     );
 };

@@ -6,8 +6,10 @@ import DatePicker from "react-datepicker";
 import EditingInvoices from "./EditingInvoices";
 
 const DistributedInvoices = ({historyDistributionData, handleLoadHistory}) => {
+
     return (
         <div>
+        <button className="load" onClick={handleLoadHistory}>Загрузить историю</button>
         <table className="distributed-invoices">
             <thead>
             <tr>
@@ -43,8 +45,7 @@ const DistributedInvoices = ({historyDistributionData, handleLoadHistory}) => {
             ))}
             </tbody>
         </table>
-        <button className="load" onClick={handleLoadHistory}>Загрузить историю</button>
-        </div>
+      </div>
     );
 };
 

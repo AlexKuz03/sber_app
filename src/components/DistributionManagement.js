@@ -12,7 +12,9 @@ const DistributionManagement = ({
 
               }) => {
     return (
-        <div>
+        <div>        
+        <button className="save" onClick={handleSaveDistribution}>Сохранить в базу данных</button>
+        <button className="save" onClick={handleSaveInFile}>Сохранить в файл</button>
         <div>
             <table className="distribution-table">
                 <thead>
@@ -59,8 +61,6 @@ const DistributionManagement = ({
                 ))}
                 </tbody>
             </table>
-            <button className="save" onClick={handleSaveDistribution}>Сохранить в базу данных</button>
-            <button className="save" onClick={handleSaveInFile}>Сохранить в файл</button>
         </div>
         </div>
     );

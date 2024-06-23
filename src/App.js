@@ -420,9 +420,11 @@ const App = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
+
     return (
 
         <div>
+
             {isLoading && (
                 <div className="loading-overlay">
                     <p>Загрузка. Пожалуйста, ожидайте..</p>
@@ -435,6 +437,7 @@ const App = () => {
                         <a href="#" key={section} onClick={() => {
                             setActiveSection(section);
                             setActiveSubsection('');
+                            setHistoryDistributionData([]);
                         }}>
                             {sections[section]}
                         </a>
