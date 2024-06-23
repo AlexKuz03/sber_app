@@ -1,13 +1,15 @@
 import React from 'react';
+import EditingDistributionManagement from "./EditingDistributionManagement";
+import EditingDist from "./EditingDist";
 
 const DistributionManagement = ({
                 handleSaveDistribution,
                 data,
                 handleDeleteDistribution,
-                EditingDistributionManagement,
                 handleDateChangeDistribution,
                 handleEditDistribution,
-                handleSaveInFile
+                handleSaveInFile,
+
               }) => {
     return (
         <div>
@@ -35,23 +37,23 @@ const DistributionManagement = ({
                 </tr>
                 </thead>
                 <tbody>
-                {data.map((isdata, index) => (
+                {data.map((item, index) => (
                     <tr key={index}>
-                        {Object.keys(isdata).map((key) => (
-                            <td key={key}>{key === 'invoice_reflection_in_the_accounting_system_date'
-                            ? new Date(isdata[key]).toLocaleDateString()
-                            : isdata[key]}</td>
+                        {Object.keys(item).map((key) => (
+                            <td key={key}>{ key === 'reflection_in_the_accounting_system_date' ? new Date(item[key]).toLocaleDateString() :
+                                (key === 'is_used_in_main_activity' || key === 'is_used_in_rent') ? (item[key] ? "X" : "") : item[key]}
+                            </td>
                         ))}
                         <td>
                             <button class="delete-button" onClick={() => handleDeleteDistribution(index)}>Удалить</button>
                         </td>
                         <td>
-                            <EditingDistributionManagement
-                                values={isdata}
+                            <EditingDist
+                                values={item}
                                 handleDateChange={handleDateChangeDistribution}
                                 handleEdit={handleEditDistribution}
                                 index={index}>
-                            </EditingDistributionManagement>
+                            </EditingDist>
                         </td>
                     </tr>
                 ))}
