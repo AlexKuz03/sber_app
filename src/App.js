@@ -76,7 +76,7 @@ const App = () => {
 
     const handleInputChange = (event) => {
         const {name, value} = event.target;
-        const newValue = name === 'cost_excluding_VAT' ? value.replace(',' , '.') : value;
+        const newValue = name === 'cost_excluding_VAT' ? value.replace(/,/g, '.').replace(/\s/g, '') : value;
         setInputValues({...inputValues, [name]: newValue});
     };
 
@@ -440,8 +440,8 @@ const App = () => {
                         </a>
                     ))}
                     <div className="auth-buttons">
-                        <button class="auth" onClick={toggleLoginModal}>Авторизация</button>
-                        <button class="auth" onClick={toggleRegisterModal}>Регистрация</button>
+                        <button className="auth" onClick={toggleLoginModal}>Авторизация</button>
+                        <button className="auth" onClick={toggleRegisterModal}>Регистрация</button>
                     </div>
                 </div>
                 <div className="content">

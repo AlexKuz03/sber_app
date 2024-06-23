@@ -25,7 +25,7 @@ const Invoices = ({
                 handleInputChange={handleInputChange}
                 handleDateChange={handleDateChange}>
             </AddAndEditTable>
-            <button class="save-button" onClick={handleSubmit}>Добавить к распределению</button>
+            <button className="save-button" onClick={handleSubmit}>Добавить к распределению</button>
             <MyDropzone handleSaveImportEntries={handleSaveImportEntries}
                         setIsLoading={setIsLoading}/>
             <div>
@@ -54,7 +54,7 @@ const Invoices = ({
                                 : entry[key]}</td>
                             ))}
                             <td>
-                                <button class="delete-button" onClick={() => handleDelete(index)}>Удалить</button>
+                                <button className="delete-button" onClick={() => handleDelete(index)}>Удалить</button>
                             </td>
                             <td>
                                 <EditingInvoices

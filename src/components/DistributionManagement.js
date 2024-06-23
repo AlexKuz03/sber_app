@@ -45,7 +45,7 @@ const DistributionManagement = ({
                             </td>
                         ))}
                         <td>
-                            <button class="delete-button" onClick={() => handleDeleteDistribution(index)}>Удалить</button>
+                            <button className="delete-button" onClick={() => handleDeleteDistribution(index)}>Удалить</button>
                         </td>
                         <td>
                             <EditingDist
@@ -59,8 +59,8 @@ const DistributionManagement = ({
                 ))}
                 </tbody>
             </table>
-            <button class="save" onClick={handleSaveDistribution}>Сохранить в базу данных</button>
-            <button class="save" onClick={handleSaveInFile}>Сохранить в файл</button>
+            <button className="save" onClick={handleSaveDistribution}>Сохранить в базу данных</button>
+            <button className="save" onClick={handleSaveInFile}>Сохранить в файл</button>
         </div>
         </div>
     );

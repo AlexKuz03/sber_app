@@ -7,7 +7,7 @@ import EditingDist from "./EditingDist";
 
 const EditingDistributionManagement = ({ values, handleEdit, index }) => {
     const [visible, setVisible] = useState(false)
-    var button = <button class="edit-button" onClick={() => toggle()}>Редактировать</button>;
+    var button = <button className="edit-button" onClick={() => toggle()}>Редактировать</button>;
     const [distributionValues, setDistributionValues] = useState({
         company: values.company,
         year: values.year,
@@ -60,7 +60,7 @@ const EditingDistributionManagement = ({ values, handleEdit, index }) => {
                         handleDateChange={handleDateChange}>
                     </EditingDist>
                 </label>
-                <button class="save-button" onClick={handleSave}>Сохранить</button>
+                <button className="save-button" onClick={handleSave}>Сохранить</button>
             </ModalBody>
         </Modal>
         </div>

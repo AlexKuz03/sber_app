@@ -32,7 +32,7 @@ const LaunchDistribution = ({ entries, handleLaunchDistribution }) => {
                     ))}
                 </tbody>
             </table>
-          <button class="launch" onClick={handleLaunchDistribution}>Запуск распределения</button>
+          <button className="launch" onClick={handleLaunchDistribution}>Запуск распределения</button>
         </div>
     );
 };

@@ -43,7 +43,7 @@ const DistributedInvoices = ({historyDistributionData, handleLoadHistory}) => {
             ))}
             </tbody>
         </table>
-        <button class="load" onClick={handleLoadHistory}>Загрузить историю</button>
+        <button className="load" onClick={handleLoadHistory}>Загрузить историю</button>
         </div>
     );
 };

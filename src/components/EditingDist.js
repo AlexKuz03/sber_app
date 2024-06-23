@@ -6,7 +6,7 @@ import EditDistTable from "./EditDistTable";
 
 const EditingDist = ({ values, handleEdit, index }) => {
     const [visible, setVisible] = useState(false);
-    var button = <button class="edit-button" onClick={() => toggle()}>Редактировать</button>;
+    var button = <button className="edit-button" onClick={() => toggle()}>Редактировать</button>;
     const [inputValues, setInputValues] = useState({
         company: values.company,
         year: values.year,
@@ -59,7 +59,7 @@ const EditingDist = ({ values, handleEdit, index }) => {
                         handleDateChange={handleDateChange}>
                     </EditDistTable>
                 </label>
-                <button class="save-button" onClick={handleSave}>Сохранить</button>
+                <button className="save-button" onClick={handleSave}>Сохранить</button>
             </ModalBody>
         </Modal>
         </div>

@@ -50,7 +50,7 @@ const MyDropzone = ({handleSaveImportEntries, setIsLoading}) => {
 
     return (
         <section className="container" style={{margin: '0', padding: '0'}}>
-            <div {...getRootProps({className: "dropzone"})}>
+            <div {...getRootProps({className: "dropzone"})} style={{border: '2px dashed #cccccc', padding: '50px', textAlign: 'center', minHeight: '100px', maxWidth: '600px'}}>
                 <input {...getInputProps()} />
                 <p>Переместите файл сюда или кликните и выберите файл</p>
             </div>
