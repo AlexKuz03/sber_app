@@ -19,7 +19,7 @@ const Invoices = ({
                   }) => {
     return (
         <div>
-            Введите значения:
+            Введите значения
             <AddAndEditTable
                 inputValues={inputValues}
                 handleInputChange={handleInputChange}
@@ -29,7 +29,7 @@ const Invoices = ({
             <MyDropzone handleSaveImportEntries={handleSaveImportEntries}
                         setIsLoading={setIsLoading}/>
             <div>
-                <h3>Сохраненные записи:</h3>
+                <h3>Сохраненные записи</h3>
                 <table className="custom-table">
                     <thead>
                     <tr>

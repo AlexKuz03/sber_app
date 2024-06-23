@@ -33,6 +33,16 @@ const App = () => {
         cost_excluding_VAT: ''
     });
 
+    const [inputBuildings, setInputBuildings] = useState({
+        building_id: '',
+        possession_beginning_date: new Date(),
+        possession_ending_date: new Date(),
+        measurement_ending_date: new Date(),
+        measurement_beginning_date: new Date(),
+        square: '',
+        measure_unit: ''
+    });
+
     const [entries, setEntries] = useState([]);
 
     const [distributionValues, setDistributionValues] = useState({
@@ -80,10 +90,28 @@ const App = () => {
         setInputValues({...inputValues, [name]: newValue});
     };
 
+    const handleInputChangeBuildings = (event) => {
+        const {name, value} = event.target;
+        setInputBuildings({...inputBuildings, [name]: value});
+    };
+
     const handleDateChange = (invoice_reflection_in_the_accounting_system_date) => {
         setInputValues({
             ...inputValues,
             ['invoice_reflection_in_the_accounting_system_date']: invoice_reflection_in_the_accounting_system_date
+        });
+    };
+
+    const handleDateChangeBuildings = ( possession_beginning_date,
+                                        possession_ending_date,
+                                        measurement_ending_date,
+                                        measurement_beginning_date) => {
+          setInputBuildings({
+            ...inputBuildings,
+            ['possession_beginning_date']: possession_beginning_date,
+            ['possession_ending_date']: possession_ending_date,
+            ['measurement_ending_date']: measurement_ending_date,
+            ['measurement_beginning_date']: measurement_beginning_date
         });
     };
 
@@ -120,11 +148,6 @@ const App = () => {
         setIsLoading(false);
     };
 
-    const handleDelete = (index) => {
-        const newEntries = entries.filter((_, i) => i !== index);
-        setEntries(newEntries);
-    };
-
     const handleEdit = (index, entry) => {
         const nextEntries = entries.map((c, i) => {
             if (i === index) {
@@ -135,6 +158,38 @@ const App = () => {
         });
         setEntries(nextEntries);
     };
+
+    const handleDelete = (index) => {
+        const newEntries = entries.filter((_, i) => i !== index);
+        setEntries(newEntries);
+    };
+
+    const [builds, setBuilds] = useState ([])
+
+    const handleSubmitBuildings = () => {
+        setIsLoading(true);
+        inputBuildings.possession_beginning_date =  inputBuildings.possession_beginning_date.toISOString().substring(0, 10);
+        inputBuildings.possession_ending_date =  inputBuildings.possession_ending_date.toISOString().substring(0, 10);
+        inputBuildings.measurement_ending_date =  inputBuildings.measurement_ending_date.toISOString().substring(0, 10);
+        inputBuildings.measurement_beginning_date =  inputBuildings.measurement_beginning_date.toISOString().substring(0, 10);
+        fetch('https://task11-p2js.onrender.com/api/building/upload_json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: '[' + JSON.stringify(inputBuildings) + ']'
+        })
+        setIsLoading(false);
+    };
+
+    const handleEditBuildings = () => {
+
+    };
+
+    const handleDeleteBuildings = () => {
+
+    };
+
     const handleEditDist = (index, entry) => {
         const nextEntries = distributionData.map((c, i) => {
             if (i === index) {
@@ -217,8 +272,7 @@ const App = () => {
     };
 
     const handleSaveInFile = () => {
-        const rows = [[ "",
-                        "Компания",
+        const rows = [[ "Компания",
                         "Год счета",
                         "Номер счета",
                         "Позиция счета",
@@ -255,14 +309,23 @@ const App = () => {
                 item.general_ledger_account
             ])
         ];
-        let csvContent = "data:text/csv; charset=utf-8;";
+        let csvContent = "\uFEFF";
 
         rows.forEach(function (rowArray) {
             let row = rowArray.join(",");
             csvContent += row + "\r\n";
         });
-        var encodedUri = encodeURI(csvContent);
-        window.open(encodedUri);
+        var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        var link = document.createElement("a");
+        if (link.download !== undefined) {
+        var url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "distribution.csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
     };
 
     const handleInputChangeDistribution = (event) => {
@@ -329,7 +392,7 @@ const App = () => {
         setIsLoading(false);
     };
 
-    const [buildings, getBuildings] = useState([]);
+    const [buildings, setBuildings] = useState([]);
 
     const handleLoadBuildings = () => {
         setIsLoading(true);
@@ -340,7 +403,7 @@ const App = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                getBuildings(data);
+                setBuildings(data);
                 setIsLoading(false);
             })
             .catch((err) => {
@@ -349,7 +412,7 @@ const App = () => {
             });
     };
 
-    const [fixedAssets, getFixedAssets] = useState([]);
+    const [fixedAssets, setFixedAssets] = useState([]);
 
     const handleLoadFixedAssets = () => {
         setIsLoading(true);
@@ -360,7 +423,7 @@ const App = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                getFixedAssets(data);
+                setFixedAssets(data);
                 setIsLoading(false);
             })
             .catch((err) => {
@@ -369,7 +432,7 @@ const App = () => {
             });
     };
 
-    const [services, getServices] = useState([]);
+    const [services, setServices] = useState([]);
 
     const handleLoadServices = () => {
         setIsLoading(true);
@@ -380,7 +443,7 @@ const App = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                getServices(data);
+                setServices(data);
                 setIsLoading(false);
             })
             .catch((err) => {
@@ -389,7 +452,7 @@ const App = () => {
             });
     };
 
-    const [contracts, getContracts] = useState([]);
+    const [contracts, setContracts] = useState([]);
 
     const handleLoadContracts = () => {
         setIsLoading(true);
@@ -400,7 +463,7 @@ const App = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                getContracts(data);
+                setContracts(data);
                 setIsLoading(false);
             })
             .catch((err) => {
@@ -420,11 +483,8 @@ const App = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-
     return (
-
         <div>
-
             {isLoading && (
                 <div className="loading-overlay">
                     <p>Загрузка. Пожалуйста, ожидайте..</p>
@@ -438,6 +498,10 @@ const App = () => {
                             setActiveSection(section);
                             setActiveSubsection('');
                             setHistoryDistributionData([]);
+                            setBuildings([]);
+                            setFixedAssets([]);
+                            setServices([]);
+                            setContracts([]);
                         }}>
                             {sections[section]}
                         </a>
@@ -491,17 +555,24 @@ const App = () => {
                                 setActiveSubsection={setActiveSubsection}
                                 subsections={subsections}
                                 buildings={buildings}
-                                getBuildings={getBuildings}
+                                setBuildings={setBuildings}
                                 handleLoadBuildings={handleLoadBuildings}
                                 fixedAssets={fixedAssets}
-                                getFixedAssets={getFixedAssets}
+                                setFixedAssets={setFixedAssets}
                                 handleLoadFixedAssets={handleLoadFixedAssets}
                                 services={services}
-                                getServices={getServices}
+                                setServices={setServices}
                                 handleLoadServices={handleLoadServices}
                                 contracts={contracts}
-                                getContracts={getContracts}
+                                setContracts={setContracts}
                                 handleLoadContracts={handleLoadContracts}
+                                inputBuildings={inputBuildings}
+                                handleInputChangeBuildings={handleInputChangeBuildings}
+                                handleDateChangeBuildings={handleDateChangeBuildings}
+                                handleSubmitBuildings={handleSubmitBuildings}
+                                builds={builds}
+                                handleDeleteBuildings={handleDeleteBuildings}
+                                handleEditBuildings={handleEditBuildings}
                             />
                         )}
                     </div>

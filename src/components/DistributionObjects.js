@@ -4,33 +4,41 @@ import MyDropzone from './MyDropzone';
 import ru from 'date-fns/locale/ru';
 import DatePicker from "react-datepicker";
 import EditingInvoices from "./EditingInvoices";
+import AddAndEditBuildings from "./AddAndEditBuildings";
+import EditingBuildings from "./EditingBuildings";
 
-const DistributionObjects = ({ activeSubsection,
-                              setActiveSubsection,
-                              subsections,
-                              buildings,
-                              getBuildings,
-                              handleLoadBuildings,
-                              fixedAssets,
-                              getFixedAssets,
-                              handleLoadFixedAssets,
-                              services,
-                              getServices,
-                              handleLoadServices,
-                              contracts,
-                              getContracts,
-                              handleLoadContracts
-                            }) => {
+const DistributionObjects = ({  activeSubsection,
+                                setActiveSubsection,
+                                subsections,
+                                buildings,
+                                setBuildings,
+                                handleLoadBuildings,
+                                fixedAssets,
+                                setFixedAssets,
+                                handleLoadFixedAssets,
+                                services,
+                                setServices,
+                                handleLoadServices,
+                                contracts,
+                                setContracts,
+                                handleLoadContracts,
+                                inputBuildings,
+                                handleInputChangeBuilding,
+                                handleSubmitBuildings,
+                                handleEditBuildings,
+                                handleDateChangeBuildings,
+                                handleDeleteBuildings
+                              }) => {
 
     const handleBack = () => {
         if (activeSubsection === 'buildings') {
-            getBuildings([]);
+            setBuildings([]);
         } else if (activeSubsection === 'fixed-assets') {
-            getFixedAssets([]);
+            setFixedAssets([]);
         } else if (activeSubsection === 'services') {
-            getServices([]);
+            setServices([]);
         } else if (activeSubsection === 'contracts') {
-            getContracts([]);
+            setContracts([]);
         }
         setActiveSubsection('');
     };
@@ -52,6 +60,15 @@ const DistributionObjects = ({ activeSubsection,
                     <button onClick={handleBack}>Назад</button>
                     {activeSubsection === 'buildings' && (
                         <div>
+                        <div>
+                            Введите значения
+                            <AddAndEditBuildings
+                                inputBuildings={inputBuildings}
+                                handleInputChangeBuilding={handleInputChangeBuilding}
+                                handleDateChangeBuildings={handleDateChangeBuildings}>
+                            </AddAndEditBuildings>
+                            <button className="save-button" onClick={handleSubmitBuildings}>Добавить здание</button>
+                        </div>
                             <h3>Ведение справочника зданий</h3>
                             <table className="handbook-buildings">
                                 <thead>
@@ -80,6 +97,17 @@ const DistributionObjects = ({ activeSubsection,
                                                     </td>
                                                 )
                                             ))}
+                                            <td>
+                                                <button className="delete-button" onClick={() => handleDeleteBuildings(index)}>Удалить</button>
+                                            </td>
+                                            <td>
+                                                <EditingBuildings
+                                                    values={entry}
+                                                    handleDateChangeBuildings={handleDateChangeBuildings}
+                                                    handleEditBuildings={handleEditBuildings}
+                                                    index={index}>
+                                                </EditingBuildings>
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
