@@ -2,8 +2,8 @@ import React, {useCallback, useState} from 'react';
 import {useDropzone} from "react-dropzone";
 import * as xlsx from "xlsx";
 
-const MyDropzone = ({handleSaveImportEntries}) => {
-    const headers = [ "company", 
+const MyDropzone = ({handleSaveImportEntries, setIsLoading}) => {
+    const headers = [ "company",
                       "year",
                       "invoice_number",
                       "invoice_position",
@@ -12,7 +12,6 @@ const MyDropzone = ({handleSaveImportEntries}) => {
                       "invoice_reflection_in_the_accounting_system_date",
                       "cost_excluding_VAT"];
     const [files, setFiles] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
 
     const onDrop = useCallback((acceptedFiles) => {
         setIsLoading(true);

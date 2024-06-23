@@ -288,7 +288,6 @@ const App = () => {
 
     const [final, setFinal] = useState([]);
 
-<<<<<<< HEAD
     const handleSubmitFinal = () => {
         setIsLoading(true);
         setFinal([...final, finishedValues]);
@@ -313,8 +312,6 @@ const App = () => {
         });
         setIsLoading(false);
     };
-=======
->>>>>>> 2c13fac04c2e973fe0e7fac26a9e1d421a0e345d
 
     const [error, setError] = useState({isOpen: false, message: ''});
 
@@ -364,6 +361,7 @@ const App = () => {
                                 handleDelete={handleDelete}
                                 handleEdit={handleEdit}
                                 handleSaveImportEntries={handleSaveImportEntries}
+                                setIsLoading={setIsLoading}
                             />
                         )}
                         {activeSection === 'distributed-invoices' && (

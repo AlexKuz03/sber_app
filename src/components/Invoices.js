@@ -14,7 +14,8 @@ const Invoices = ({
                       entries,
                       handleDelete,
                       handleEdit,
-                      handleSaveImportEntries
+                      handleSaveImportEntries,
+                      setIsLoading
                   }) => {
     return (
         <div>
@@ -25,7 +26,8 @@ const Invoices = ({
                 handleDateChange={handleDateChange}>
             </AddAndEditTable>
             <button class="save-button" onClick={handleSubmit}>Добавить к распределению</button>
-            <MyDropzone handleSaveImportEntries={handleSaveImportEntries}/>
+            <MyDropzone handleSaveImportEntries={handleSaveImportEntries}
+                        setIsLoading={setIsLoading}/>
             <div>
                 <h3>Сохраненные записи:</h3>
                 <table className="custom-table">
