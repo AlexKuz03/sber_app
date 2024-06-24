@@ -168,6 +168,19 @@ const App = () => {
 
     const handleSubmitBuildings = () => {
         setIsLoading(true);
+        const requiredFields = [
+            'building_id', 'possession_beginning_date', 'possession_ending_date', 'measurement_ending_date',
+            'measurement_beginning_date', 'square', 'measure_unit'
+        ];
+
+        const emptyFields = requiredFields.filter(field => !inputValues[field]);
+
+        if (emptyFields.length > 0) {
+            showError('Все поля должны быть заполнены');
+            setIsLoading(false);
+            return;
+        }
+
         inputBuildings.possession_beginning_date =  inputBuildings.possession_beginning_date.toISOString().substring(0, 10);
         inputBuildings.possession_ending_date =  inputBuildings.possession_ending_date.toISOString().substring(0, 10);
         inputBuildings.measurement_ending_date =  inputBuildings.measurement_ending_date.toISOString().substring(0, 10);
