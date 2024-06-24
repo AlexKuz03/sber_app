@@ -94,7 +94,8 @@ const DistributionObjects = ({  activeSubsection,
                                                         || key === 'possession_ending_date'
                                                         || key === 'measurement_ending_date'
                                                         || key === 'measurement_beginning_date'
-                                                            ? new Date(entry[key]).toLocaleDateString()
+                                                            ? entry[key]
+                                                            ? new Date(entry[key]).toLocaleDateString() : ''
                                                             : key === 'square' ? Number(entry[key])
                                                             : entry[key]}
                                                     </td>
@@ -147,7 +148,8 @@ const DistributionObjects = ({  activeSubsection,
                                                     || key === 'connection_with_building_ending_date'
                                                     || key === 'place_in_service_date'
                                                     || key === 'disposal_date'
-                                                        ? new Date(entry[key]).toLocaleDateString()
+                                                        ? entry[key]
+                                                        ? new Date(entry[key]).toLocaleDateString() : ''
                                                         : (key === 'is_used_in_main_activity' || key === 'is_used_in_rent')
                                                         ? (entry[key] ? "X" : "")
                                                         : entry[key]}

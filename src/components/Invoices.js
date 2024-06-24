@@ -50,7 +50,8 @@ const Invoices = ({
                         <tr key={index}>
                             {Object.keys(entry).map((key) => (
                                 <td key={key}>{key === 'invoice_reflection_in_the_accounting_system_date'
-                                ? entry[key] ? new Date(entry[key]).toLocaleDateString() : ''
+                                ? entry[key]
+                                ? new Date(entry[key]).toLocaleDateString() : ''
                                 : entry[key]}
                                 </td>
                             ))}
