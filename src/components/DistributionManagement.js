@@ -12,7 +12,7 @@ const DistributionManagement = ({
 
               }) => {
     return (
-        <div>        
+        <div>
         <button className="save" onClick={handleSaveDistribution}>Сохранить в базу данных</button>
         <button className="save" onClick={handleSaveInFile}>Сохранить в файл</button>
         <div>
@@ -36,6 +36,8 @@ const DistributionManagement = ({
                     <th>Площадь</th>
                     <th>Сумма распределения</th>
                     <th>Счет главной книги</th>
+                    <th>Удаление</th>
+                    <th>Редактирование</th>
                 </tr>
                 </thead>
                 <tbody>

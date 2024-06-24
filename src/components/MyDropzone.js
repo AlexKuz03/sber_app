@@ -31,7 +31,23 @@ const MyDropzone = ({handleSaveImportEntries, setIsLoading}) => {
             if (jsonData[0].company === "Компания"){
                 jsonData = jsonData.slice(1);
             }
+
+            jsonData = jsonData.map((row) => {
+                        const updatedRow = {};
+                        for (const key in row) {
+                            if (Object.prototype.hasOwnProperty.call(row, key)) {
+                                let value = row[key];
+                                if (typeof value === 'string') {
+                                    value = value.replace(/\s/g, '').replace(/,/g, '.');
+                                }
+                                updatedRow[key] = value;
+                            }
+                        }
+                        return updatedRow;
+                    });
+
             console.log(jsonData);
+
             handleSaveImportEntries(jsonData);
             setIsLoading(false);
         };

@@ -80,6 +80,8 @@ const DistributionObjects = ({  activeSubsection,
                                         <th>Измерение действит. с</th>
                                         <th>Площадь</th>
                                         <th>Единица измерения</th>
+                                        <th>Удаление</th>
+                                        <th>Редактирование</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -93,6 +95,7 @@ const DistributionObjects = ({  activeSubsection,
                                                         || key === 'measurement_ending_date'
                                                         || key === 'measurement_beginning_date'
                                                             ? new Date(entry[key]).toLocaleDateString()
+                                                            : key === 'square' ? Number(entry[key])
                                                             : entry[key]}
                                                     </td>
                                                 )
