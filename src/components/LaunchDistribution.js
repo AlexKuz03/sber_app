@@ -19,13 +19,14 @@ const LaunchDistribution = ({ entries, handleLaunchDistribution }) => {
                     </tr>
                 </thead>
                 <tbody>
-                {entries.map((entry, index) => (
-                    <tr key={index}>
-                        {Object.keys(entry).map((key) => (
-                            <td key={key}>{key === 'invoice_reflection_in_the_accounting_system_date'
-                            ? entry[key] ? new Date(entry[key]).toLocaleDateString() : ''
-                            : entry[key]}</td>
-                        ))}
+                    {entries.map((entry, index) => (
+                        <tr key={index}>
+                            {Object.keys(entry).map((key) => (
+                                <td key={key}>{key === 'invoice_reflection_in_the_accounting_system_date'
+                                ? entry[key] ? new Date(entry[key]).toLocaleDateString() : ''
+                                : entry[key]}
+                                </td>
+                            ))}
                         </tr>
                     ))}
                 </tbody>

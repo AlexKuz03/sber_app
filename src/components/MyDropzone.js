@@ -37,8 +37,15 @@ const MyDropzone = ({handleSaveImportEntries, setIsLoading}) => {
                         for (const key in row) {
                             if (Object.prototype.hasOwnProperty.call(row, key)) {
                                 let value = row[key];
-                                if (typeof value === 'string') {
-                                    value = value.replace(/\s/g, '').replace(/,/g, '.');
+                                if (key === 'cost_excluding_VAT') {
+                                  value = String(value)
+                                  value = value.replace(/\./g,',')
+                                  value = value.replace(/\s/g,'')
+                                  var n = value.lastIndexOf(',');
+                                  if (n >= 0) {
+                                  value = value.substring(0, n) + "." + value.substring(n + 1);
+                                  }
+                                  value = value.replace(/,/g,'')
                                 }
                                 updatedRow[key] = value;
                             }

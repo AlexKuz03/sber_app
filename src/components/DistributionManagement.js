@@ -44,8 +44,8 @@ const DistributionManagement = ({
                 {data.map((item, index) => (
                     <tr key={index}>
                         {Object.keys(item).map((key) => (
-                            <td key={key}>{ key === 'reflection_in_the_accounting_system_date' ? new Date(item[key]).toLocaleDateString() :
-                                (key === 'is_used_in_main_activity' || key === 'is_used_in_rent') ? (item[key] ? "X" : "") : item[key]}
+                            <td key={key}>{key === 'reflection_in_the_accounting_system_date' ? item[key] ? new Date(item[key]).toLocaleDateString()
+                            : '' : (key === 'is_used_in_main_activity' || key === 'is_used_in_rent') ? (item[key] ? "X" : "") : item[key]}
                             </td>
                         ))}
                         <td>

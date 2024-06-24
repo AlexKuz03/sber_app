@@ -51,7 +51,8 @@ const Invoices = ({
                             {Object.keys(entry).map((key) => (
                                 <td key={key}>{key === 'invoice_reflection_in_the_accounting_system_date'
                                 ? entry[key] ? new Date(entry[key]).toLocaleDateString() : ''
-                                : entry[key]}</td>
+                                : entry[key]}
+                                </td>
                             ))}
                             <td>
                                 <button className="delete-button" onClick={() => handleDelete(index)}>Удалить</button>

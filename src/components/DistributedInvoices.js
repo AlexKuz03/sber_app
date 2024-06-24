@@ -38,7 +38,7 @@ const DistributedInvoices = ({historyDistributionData, handleLoadHistory}) => {
                 <tr key={index}>
                     {Object.keys(entry).map((key) => (
                         <td key={key}>{key === 'invoice_reflection_in_the_accounting_system_date'
-                            ? new Date(entry[key]).toLocaleDateString()
+                            ? entry[key] ? new Date(entry[key]).toLocaleDateString() : '' : (key === 'is_used_in_main_activity' || key === 'is_used_in_rent') ? (entry[key] ? "X" : "")
                             : entry[key]}</td>
                     ))}
                 </tr>
